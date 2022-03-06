@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Kishlay Kumar</title>
+		<meta name="description" content="Kishlay Kumar">
+		<meta name="keywords" content="Kishlay Kumar">
+		<meta name="author" content="Kishlay Kumar">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Sigmar+One" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Gaegu" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Alice" rel="stylesheet">
+		<style>
+			body,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: "Raleway", sans-serif
+			}
+
+			body,
+			html {
+				height: 100%;
+				line-height: 1.8;
+			}
+
+			.download_button {
+				background-color: #FF5733;
+				border: none;
+				border-radius: 50px;
+				cursor: pointer;
+				margin-left: 90px;
+				color: white;
+				padding: 10px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
+			}
+			.download_link{
+				text-decoration: none;
+			}
+			.bgimg-1 {
+				background-position: center center;
+				background-size: cover;
+				background-image: url("Background.jpg");
+				min-height: 50%;
+			}
+
+			.w3-bar .w3-button {
+				padding: 16px;
+			}
+
+			@media only screen and (max-width: 600px) {
+				.section {
+					margin-left: 0px;
+					margin-right: 0px;
+				}
+
+				.text {
+					font-size: 18px;
+					font-family: 'Gaegu', cursive;
+					font-weight: bold;
+				}
+
+				.row {
+					padding: 0px;
+				}
+
+				.heading {
+					font-size: 24px;
+					padding: 8px;
+					font-family: 'Luckiest Guy', cursive;
+				}
+
+				.footer {
+					/*margin-top: 32px;*/
+					font-size: 16px;
+					padding: 8px;
+				}
+			}
+
+			@media only screen and (min-width: 600px) {
+				.section {
+					margin-left: 32px;
+					margin-right: 32px;
+				}
+
+				.text {
+					font-size: 20px;
+					font-family: 'Gaegu', cursive;
+					font-weight: bold;
+				}
+
+				.row {
+					padding: 16px;
+				}
+
+				.heading {
+					font-size: 28px;
+					padding: 8px;
+					font-family: 'Luckiest Guy', cursive;
+				}
+
+				.footer {
+					font-size: 20px;
+					padding: 8px;
+				}
+			}
+
+			@media only screen and (min-width: 900px) {
+				.section {
+					margin-left: 64px;
+					margin-right: 64px;
+				}
+
+				.text {
+					font-size: 24px;
+					font-family: 'Gaegu', cursive;
+					font-weight: normal;
+				}
+
+				.row {
+					padding: 32px;
+				}
+
+				.heading {
+					font-size: 36px;
+					padding: 16px;
+					font-family: 'Luckiest Guy', cursive;
+				}
+
+				.footer {
+					margin-top: 32px;
+					font-size: 24px;
+					padding: 16px;
+				}
+
+			}
+		</style>
+
+	</head>
+
+	<body class="w3-teal">
+		<!-- Navbar (sit on top) -->
+		<div class="w3-top">
+			<div class="w3-bar w3-card" id="myNavbar" style="background-color: #386986">
+				<a href="#sukanya" class="w3-bar-item w3-button w3-wide w3-xlarge"
+					style="padding-top: 8px; padding-bottom: 8px;">KISHLAY KUMAR</a>
+				<!-- Right-sided navbar links -->
+				<div class="w3-right w3-hide-small">
+					<a href="#about" class="w3-bar-item w3-button">ABOUT ME</a>
+					<a href="#workexperience" class="w3-bar-item w3-button">WORK EXPERIENCE</a>
+					<a href="#contact" class="w3-bar-item w3-button">CONTACT</a>
+				</div>
+				<!-- Hide right-floated links on small screens and replace them with a menu icon -->
+				<a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium"
+					onclick="w3_open()" style="padding-bottom: 10px;">
+					<i class="material-icons">dehaze</i>
+				</a>
+			</div>
+		</div>
+
+		<!-- Sidebar on small screens when clicking the menu icon -->
+		<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large"
+			style="display:none; width: 100%" id="mySidebar">
+			<a href="javascript:void(0)" onclick="w3_close()"
+				class="w3-bar-item w3-button w3-large w3-padding-16 w3-center"><i class="material-icons">clear</i></a>
+			<a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-center">ABOUT ME</a>
+			<a href="#Wworkexperience" onclick="w3_close()" class="w3-bar-item w3-button w3-center">WORK EXPERIENCE</a>
+			<a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-center">GET IN TOUCH</a>
+		</nav>
+
+		<!-- Kishlay -->
+		<div class="bgimg-1" id="Sukanya"></div>
+
+		<!-- About -->
+		<div class="w3-center heading" id="about">ABOUT ME 💁‍♀️</div>
+		<div class="w3-container w3-white w3-card-4 section">
+			<div class="w3-row row">
+				<div class=" w3-col m6 l4" style="padding: 16px">
+					</br>
+					</br>
+					</br>
+					</br>
+					<img src="Sukanya1.jpg" alt="Sukanya Bag" class="w3-round w3-card" width="100%">
+					</br>
+					</br>
+					</br>
+					</br>
+					</br>
+					</br>
+					<img src="Sukanya3.jpg" alt="Sukanya Bag" class="w3-round w3-card" width="100%">
+				</div>
+				<div class="w3-rest" style="padding: 16px; padding-top: 0px;">
+					<p>
+					<div style="font-family: 'Sigmar One', cursive;" class="w3-center heading">Namaste!😎🙏 </div>
+					<div class="text" style="font-family: 'Gaegu', cursive;">
+						I'm Sukanya Bag!
+						A Data Science and AI practitioner who loves to uncover the hidden secrets and insights from
+						messy data!
+						I love to develop data-driven applications using Machine Learning, Deep Learning, Natural
+						Language Processing
+						and Computer Vision!
+						</br>
+						</br>
+
+						I am also interested in App Development with Flutter and Web Development with MERN Stack!
+						</br>
+						</br>
+						I'm working towards a role where I can engage with a group of like-minded people who dream to
+						bring revolution
+						in the world with data!
+						</br>
+
+						</br>
+						Skills-
+
+						Data Structures and Algorithms | Python | Java | SQL | Data Science | Machine Learning |
+						Deep Learning | NLP | Statistics & Probability | Flask | Flutter | MERN | GCP | REST APIs
+
+
+						<br>
+					</div>
+					<br>
+					<div class="text" style="font-family: 'Gaegu', cursive;">
+						My Interests:
+						<ul style="margin-top: 0px">
+							<li>Software Development</li>
+							<li>Data Science and Artificial Intelligence</li>
+						</ul>
+					</div>
+					<p align="left">
+					<table>
+						<tr>
+							<td>
+								<img
+									src="https://github-readme-stats.vercel.app/api?username=sukanyabag&&show_icons=true&title_color=131312&icon_color=1a34f9&text_color=2E3332&bg_color=FF5733" />
+							</td>
+							<td>
+								<img align="middle" height="240" width="230"
+									src="https://github-readme-stats.vercel.app/api/top-langs/?username=sukanyabag&hide=css&theme=chartreuse-dark"
+									alt="sukanyabag" />
+
+							</td>
+
+						</tr>
+					</table>
+					</p>
+					<div class="text" style="font-family: 'Gaegu', cursive;">
+						My Favorite Passtime:
+						<ul style="margin-top: 0px">
+							<li>Reading (and sometimes writing) about technology!</li>
+						</ul>
+						I'm a Technical Writer at <a href="https://www.analyticsvidhya.com/">Analytics Vidhya.</a>
+						➡️ Read my blogs published at Analytics Vidhya <a
+							href="https://sukanyabag.medium.com/">here!</a>
+					</div>
+					</br>
+					</br>
+					<div>
+						<button class="download_button" type="button">
+							<a class="download_link" href="https://github.com/sukanyabag/sukanyabag.github.io/raw/main/Kishlay's%20Resume.pdf">DOWNLOAD RESUME</a>
+						</button>
+					</div>
+					</p>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- WORK EXPERIENCE -->
+		<div class="w3-center heading" id="workexperience">WORK EXPERIENCE 💻</div>
+		<div class="w3-container w3-white section" style="padding: 0px">
+			<div class="w3-row" style="padding: 0px">
+				<ul class="w3-ul w3-card-4 w3-white w3-center class text" style="width: 100%">
+          <li>Open Source Contributor. (Sep 2021 - Dec 2021) </li>
+					<li>Data Science and Bussiness Analytics Intern at The Sparks Foundation. (Sep 2021 - Oct 2021) </li>
+					<li>Machine Learning Intern at Verzeo. (May 2021 - Jun 2021) </li>
+				</ul>
+			</div>
+		</div>
+
+
+		<!-- Contact Me -->
+		<div class="w3-center heading" id="contact">FEEL FREE TO GET IN TOUCH 🤓</div>
+		<div class="w3-container w3-white w3-card-4 section">
+			<div class="w3-row w3-center" style="padding-top: 16px; padding-bottom: 16px">
+				<div class="w3-col s4">
+					<a href="https://www.facebook.com/kishlay.kumar.50159/" title="Facebook" target="_blank"><img
+							src="fb.png" width="64px" height="64px"></a>
+				</div>
+				<div class="w3-col s4">
+					<a href="www.linkedin.com/in/-kishlaykumar-" title="Linkedin" target="_blank"><img
+							src="linkedin.png" width="64px" height="64px"></a>
+				</div>
+				<div class="w3-col s4">
+					<a href="https://github.com/kishlayaug15" title="Github" target="_blank"><img src="github.png"
+							width="64px" height="64px"></a>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function w3_open() {
+				if (mySidebar.style.display === 'block') {
+					mySidebar.style.display = 'none';
+				} else {
+					mySidebar.style.display = 'block';
+				}
+			}
+
+			// Close the sidebar with the close button
+			function w3_close() {
+				mySidebar.style.display = "none";
+			}
+		</script>
+	</body>
+
+</html>
