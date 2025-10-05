@@ -1,317 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Your Name — Portfolio</title>
+  <meta name="description" content="Professional portfolio with Home, About, Skills, Experience, Projects, and Contact sections.">
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#6ee7b7; --glass: rgba(255,255,255,0.03);
+      --radius:14px; --gap:18px; --maxw:1100px;
+      --ff-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:var(--ff-sans);background:linear-gradient(180deg,#071023 0%, var(--bg) 100%);color:#e6eef6;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--maxw);margin:0 auto;padding:36px}
 
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Kishlay Kumar</title>
-		<meta name="description" content="Kishlay Kumar">
-		<meta name="keywords" content="Kishlay Kumar">
-		<meta name="author" content="Kishlay Kumar">
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-		<link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Alegreya" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-		<style>
-			body,
-			h1,
-			h2,
-			h3,
-			h4,
-			h5,
-			h6 {
-				font-family: "Lucida Console", "Courier New", monospace
-			}
+    /* Header / nav */
+    header{position:sticky;top:16px;z-index:40}
+    .nav{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:10px 14px;border-radius:999px;backdrop-filter: blur(6px);box-shadow:0 6px 24px rgba(2,6,23,0.6)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#60a5fa);display:grid;place-items:center;font-weight:700;color:#042028}
+    nav a{margin:0 10px;color:var(--muted);font-weight:600;font-size:14px}
+    .cta{background:var(--accent);padding:8px 12px;border-radius:10px;color:#042028;font-weight:700}
+    .menu-toggle{display:none}
 
-			body,
-			html {
-				height: 100%;
-				line-height: 1.8;
-			}
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;margin:28px 0}
+    .card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+    .hero-left h1{margin:0;font-size:34px;line-height:1.02}
+    .tagline{color:var(--muted);margin-top:10px}
+    .skills-row{display:flex;gap:10px;margin-top:18px}
+    .skill-pill{background:var(--glass);padding:8px 10px;border-radius:999px;color:var(--muted);font-weight:600}
+    .hero-right{display:grid;place-items:center}
+    .profile{width:100%;border-radius:12px;overflow:hidden}
 
-			.download_button {
-				background-color: #941c40;
-				border: none;
-				border-radius: 20px;
-				cursor: pointer;
-				margin-left: 90px;
-				color: white;
-				padding: 10px 32px;
-				text-align: center;
-				text-decoration: none;
-				display: inline-block;
-				font-size: 16px;
-			}
-			.download_link{
-				text-decoration: none;
-			}
-			.bgimg-1 {
-				background-position: center center;
-				background-size: cover;
-				background-image: url("Background.jpg");
-				min-height: 50%;
-			}
+    /* Sections */
+    section{margin:26px 0}
+    .section-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    .section-head h2{margin:0}
+    .muted{color:var(--muted)}
 
-			.w3-bar .w3-button {
-				padding: 16px;
-			}
+    /* About */
+    .about-grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
 
-			@media only screen and (max-width: 600px) {
-				.section {
-					margin-left: 0px;
-					margin-right: 0px;
-				}
+    /* Skills */
+    .skill{margin-bottom:12px}
+    .progress{height:10px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#60a5fa);border-radius:999px}
 
-				.text {
-					font-size: 18px;
-					font-family: 'Roboto', cursive;
-					font-weight: bold;
-				}
+    /* Experience */
+    .timeline{display:flex;flex-direction:column;gap:12px}
+    .exp{display:flex;gap:14px}
+    .exp .meta{min-width:120px}
+    .exp .meta .role{font-weight:700}
+    .exp .body{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:12px;border-radius:10px}
 
-				.row {
-					padding: 0px;
-				}
+    /* Projects */
+    .projects{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    .project{padding:14px;border-radius:12px;background:rgba(255,255,255,0.02)}
+    .project .links{margin-top:10px}
+    .tag{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.03);font-size:12px;margin-right:6px}
 
-				.heading {
-					font-size: 24px;
-					padding: 8px;
-					font-family: 'Lato', cursive;
-				}
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 320px;gap:20px}
+    .form-row{display:flex;gap:10px}
+    input,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    button[type=submit]{background:var(--accent);padding:10px 14px;border-radius:10px;border:0;font-weight:700}
 
-				.footer {
-					/*margin-top: 32px;*/
-					font-size: 16px;
-					padding: 8px;
-				}
-			}
+    /* Footer */
+    footer{padding:18px 0;text-align:center;color:var(--muted)}
 
-			@media only screen and (min-width: 600px) {
-				.section {
-					margin-left: 32px;
-					margin-right: 32px;
-				}
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      .about-grid,.contact-grid{grid-template-columns:1fr}
+      .projects{grid-template-columns:1fr}
+      nav a{display:none}
+      .menu-toggle{display:block}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="nav">
+        <div class="brand">
+          <div class="logo">YK</div>
+          <div>
+            <div style="font-weight:800">Your Name</div>
+            <div class="muted" style="font-size:12px">Product / Business Analyst</div>
+          </div>
+        </div>
+        <nav>
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div style="display:flex;align-items:center;gap:10px">
+          <a class="cta" href="#contact">Hire Me</a>
+          <button class="menu-toggle" aria-label="menu">☰</button>
+        </div>
+      </div>
+    </header>
 
-				.text {
-					font-size: 20px;
-					font-family: 'Roboto', cursive;
-					font-weight: bold;
-				}
+    <main>
+      <section id="home" class="hero">
+        <div class="hero-left card">
+          <h1>Hi, I'm <span style="color:var(--accent)">Your Name</span></h1>
+          <div class="tagline">A problem-solving Product / Business Analyst who turns ambiguity into clear, testable plans. I craft data-driven insights, user flows, and product specs that stakeholders love.</div>
+          <div class="skills-row">
+            <div class="skill-pill">Tableau</div>
+            <div class="skill-pill">SQL</div>
+            <div class="skill-pill">Python</div>
+            <div class="skill-pill">Figma</div>
+          </div>
 
-				.row {
-					padding: 16px;
-				}
+          <div style="margin-top:20px;display:flex;gap:12px;align-items:center">
+            <a class="cta" href="#projects">View Projects</a>
+            <a href="#contact" class="muted">Contact me</a>
+          </div>
+        </div>
 
-				.heading {
-					font-size: 28px;
-					padding: 8px;
-					font-family: 'Lato', cursive;
-				}
+        <div class="hero-right">
+          <div class="card profile">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='400'><rect width='100%' height='100%' fill='%230b1220'/><text x='50%' y='50%' fill='%236ee7b7' font-size='26' font-family='Arial' text-anchor='middle' alignment-baseline='middle'>Your photo or avatar</text></svg>" alt="avatar" style="width:100%;height:auto;display:block">
+          </div>
+        </div>
+      </section>
 
-				.footer {
-					font-size: 20px;
-					padding: 8px;
-				}
-			}
+      <section id="about">
+        <div class="section-head"><h2>About</h2><div class="muted">— Who I am</div></div>
+        <div class="about-grid">
+          <div class="card">
+            <p>Hello! I'm a detail-driven analyst with a passion for translating messy data and ambiguous requirements into product features that deliver value. I have experience in requirements gathering, stakeholder communication, user story writing, and basic data analysis.</p>
+            <ul style="color:var(--muted)">
+              <li>Strong in SQL, Excel, and basic Python for analysis</li>
+              <li>Comfortable creating dashboards (Tableau / Power BI)</li>
+              <li>Hands-on with Jira, Confluence, and Agile ceremonies</li>
+            </ul>
+          </div>
 
-			@media only screen and (min-width: 900px) {
-				.section {
-					margin-left: 64px;
-					margin-right: 64px;
-				}
+          <div class="card">
+            <h3 style="margin-top:0">Quick facts</h3>
+            <div class="muted">Location</div>
+            <div>India</div>
+            <div class="muted">Availability</div>
+            <div>Open to work • Contract / Full-time</div>
+            <div class="muted" style="margin-top:8px">Resume</div>
+            <a class="cta" href="#" style="display:inline-block;margin-top:8px">Download PDF</a>
+          </div>
+        </div>
+      </section>
 
-				.text {
-					font-size: 24px;
-					font-family: 'Roboto', cursive;
-					font-weight: normal;
-				}
+      <section id="skills">
+        <div class="section-head"><h2>Skills</h2><div class="muted">— Tools & technologies</div></div>
+        <div class="card">
+          <div style="display:flex;gap:20px;flex-wrap:wrap">
+            <div style="flex:1;min-width:260px">
+              <h4>Data & Analysis</h4>
+              <div class="skill"><div class="muted">SQL</div><div class="progress"><i style="width:86%"></i></div></div>
+              <div class="skill"><div class="muted">Tableau / Power BI</div><div class="progress"><i style="width:80%"></i></div></div>
+              <div class="skill"><div class="muted">Python (pandas)</div><div class="progress"><i style="width:62%"></i></div></div>
+            </div>
+            <div style="flex:1;min-width:260px">
+              <h4>Product & Tools</h4>
+              <div class="skill"><div class="muted">Jira / Confluence</div><div class="progress"><i style="width:84%"></i></div></div>
+              <div class="skill"><div class="muted">Figma</div><div class="progress"><i style="width:56%"></i></div></div>
+              <div class="skill"><div class="muted">Requirement gathering</div><div class="progress"><i style="width:78%"></i></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-				.row {
-					padding: 32px;
-				}
+      <section id="experience">
+        <div class="section-head"><h2>Work Experience</h2><div class="muted">— Where I worked</div></div>
+        <div class="timeline">
+          <div class="exp card">
+            <div class="meta">
+              <div class="role">Content Moderator — Genpact</div>
+              <div class="muted">Aug 2023 — Present</div>
+            </div>
+            <div class="body">
+              <div><strong>Key contributions</strong></div>
+              <ul class="muted">
+                <li>Reviewed and categorized content with an emphasis on policy accuracy and speed.</li>
+                <li>Worked closely with analysts to flag trends and generate weekly summaries.</li>
+                <li>Improved moderation workflow via small automation scripts and clear tagging schemes.</li>
+              </ul>
+            </div>
+          </div>
 
-				.heading {
-					font-size: 36px;
-					padding: 16px;
-					font-family: 'Lato', cursive;
-				}
+          <div class="exp card">
+            <div class="meta">
+              <div class="role">Intern — Sample Company</div>
+              <div class="muted">Jun 2022 — Jul 2023</div>
+            </div>
+            <div class="body">
+              <div><strong>Project</strong></div>
+              <div class="muted">Built a simple dashboard to track user engagement and retention metrics using SQL + Tableau.</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-				.footer {
-					margin-top: 32px;
-					font-size: 24px;
-					padding: 16px;
-				}
+      <section id="projects">
+        <div class="section-head"><h2>Projects</h2><div class="muted">— Select work</div></div>
+        <div class="projects">
+          <div class="project card">
+            <h3>Customer Churn Dashboard</h3>
+            <p class="muted">A Tableau dashboard that highlights churn drivers using cohort and funnel analysis. Implemented SQL pipelines for data prep.</p>
+            <div class="links"><span class="tag">Tableau</span><span class="tag">SQL</span><a href="#" class="muted" style="margin-left:8px">Live Demo</a></div>
+          </div>
 
-			}
-		</style>
+          <div class="project card">
+            <h3>Policy Classifier (Prototype)</h3>
+            <p class="muted">A small script to classify content into categories using keyword heuristics and simple scoring — used to speed up triage.</p>
+            <div class="links"><span class="tag">Python</span><span class="tag">Automation</span><a href="#" class="muted" style="margin-left:8px">Source</a></div>
+          </div>
+        </div>
+      </section>
 
-	</head>
+      <section id="contact">
+        <div class="section-head"><h2>Contact</h2><div class="muted">— Let's work together</div></div>
+        <div class="contact-grid">
+          <div class="card">
+            <form id="contactForm">
+              <div style="display:flex;gap:12px"><input name="name" placeholder="Your name" required><input name="email" placeholder="Email" required></div>
+              <div style="margin-top:10px"><input name="subject" placeholder="Subject" required></div>
+              <div style="margin-top:10px"><textarea name="message" placeholder="Message" rows="6" required></textarea></div>
+              <div style="margin-top:12px"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
 
-	<body class="w3-lime w3-text-white">
-		<!-- Navbar (sit on top) -->
-		<div class="w3-top">
-			<div class="w3-bar w3-card" id="myNavbar" style="background-color: #261302">
-				<a href="#kishlay" class="w3-bar-item w3-button w3-wide w3-xlarge"
-					style="padding-top: 8px; padding-bottom: 8px;">KISHLAY KUMAR</a>
-				<!-- Right-sided navbar links -->
-				<div class="w3-right w3-hide-small">
-					<a href="#about" class="w3-bar-item w3-button">ABOUT ME</a>
-					<a href="#workexperience" class="w3-bar-item w3-button">WORK EXPERIENCE</a>
-					<a href="#contact" class="w3-bar-item w3-button">CONTACT</a>
-				</div>
-				<!-- Hide right-floated links on small screens and replace them with a menu icon -->
-				<a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium"
-					onclick="w3_open()" style="padding-bottom: 10px;">
-					<i class="material-icons">dehaze</i>
-				</a>
-			</div>
-		</div>
+          <div class="card">
+            <h4>Get in touch</h4>
+            <p class="muted">Email</p>
+            <div>your.email@example.com</div>
+            <p class="muted" style="margin-top:8px">Phone</p>
+            <div>+91 99999 99999</div>
+            <p class="muted" style="margin-top:8px">Location</p>
+            <div>India</div>
 
-		<!-- Sidebar on small screens when clicking the menu icon -->
-		<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large"
-			style="display:none; width: 100%" id="mySidebar">
-			<a href="javascript:void(0)" onclick="w3_close()"
-				class="w3-bar-item w3-button w3-large w3-padding-16 w3-center"><i class="material-icons">clear</i></a>
-			<a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-center">ABOUT ME</a>
-			<a href="#workexperience" onclick="w3_close()" class="w3-bar-item w3-button w3-center">WORK EXPERIENCE</a>
-			<a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-center">GET IN TOUCH</a>
-		</nav>
+            <div style="margin-top:12px;display:flex;gap:8px">
+              <a class="tag" href="#">LinkedIn</a>
+              <a class="tag" href="#">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
-		<!-- Kishlay -->
-		<div class="bgimg-1" id="Kishlay"></div>
+    <footer>
+      <div class="muted">Made with care • © <span id="yr"></span> Your Name</div>
+    </footer>
+  </div>
 
-		<!-- About -->
-		<div class="w3-center heading" id="about"><b>ABOUT ME</b></div>
-		<div class="w3-container w3-white w3-card-4 section">
-			<div class="w3-row row">
-				<div class=" w3-col m6 l4" style="padding: 16px">
-					</br>
-					</br>
-					</br>
-					</br>
-					<img src="Kishlay.jpg" alt="Kishlay Kumar" class="w3-round w3-card" width="100%">
-					</br>
-					</br>
-					</br>
-					</br>
-					</br>
-					</br>
-					<img src="kishlay_img.jpg" alt="Kishlay Kumar" class="w3-round w3-card" width="100%">
-					
-				</div>
-				<div class="w3-rest" style="padding: 16px; padding-top: 0px;">
-					<p>
-					<div style="font-family: 'Alegreya', cursive;" class="w3-center heading"><b>Hi there,</br> I'm Kishlay Kumar</b></div>
-					<div class="text" style="font-family: 'Roboto', cursive;">
-						I am a Data Science & Machine Learning enthusiast who has deep interest in the fundamental concepts of AI & loves to uncover the hidden secrets and insights from
-						messy data! 
-						I have completed my Bachelor's in Electrical Engineering. But, during my 3rd Semester I developed interest in Machine Learning and started learning it. 
-						As it was quite fascinating to see a model predicting & learning from its own mistakes.
-						I love to develop data-driven applications using Machine Learning, Deep Learning, Natural Language Processing and Computer Vision!
-						</br>
-						
-						</br>
-						I'm working towards a role where I can engage with a group of like-minded people who dream to
-						bring revolution in the world with data! It gives me immense pleasure to perform and analyze the data, covering some useful informations which can produce some great results.
-						</br>
+  <script>
+    // small script: smooth scrolling + form demo + year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const href = a.getAttribute('href');
+        if(href.length>1){
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      })
+    });
 
-						</br>
-						<b>Skills :</b>
-						</br>
-						Data Structures and Algorithms | Python | Java | SQL | Data Science | Machine Learning |
-						Deep Learning | NLP | Statistics & Probability | Flask | REST APIs
-
-
-						<br>
-					</div>
-					<br>
-					<div class="text" style="font-family: 'Roboto', cursive;">
-						<b>My Interests:</b>
-						<ul style="margin-top: 0px">
-							<li>Software Development</li>
-							<li>Data Science and Artificial Intelligence</li>
-						</ul>
-					</div>
-					<p align="left">
-					<table>
-						<tr>
-							<td>
-								<img
-									src="https://github-readme-stats.vercel.app/api?username=kishlayaug15&show_icons=true&hide=&count_private=true&title_color=3382ed&text_color=ef4444&icon_color=facc15&bg_color=22272e&hide_border=true&show_icons=true" />
-							</td>
-							<td>
-								<img align="middle" height="240" width="230"
-									src="https://github-readme-stats.vercel.app/api/top-langs/?username=kishlayaug15&langs_count=10&title_color=3382ed&text_color=ef4444&icon_color=facc15&bg_color=22272e&hide_border=true&locale=en&custom_title=Top%20%Languages"
-									alt="kishlaykr" />
-
-							</td>
-
-						</tr>
-					</table>
-					</p>
-					</br>
-					</br>
-					<div>
-						<button class="download_button" type="button">
-							<a class="downloadlink" href="https://github.com/kishlayaug15/kishlayaug15.github.io/raw/main/Kishlay_Resume.pdf">DOWNLOAD RESUME</a>
-						</button>
-					</div>
-					</p>
-				</div>
-			</div>
-		</div>
-
-
-		<!-- WORK EXPERIENCE -->
-		<div class="w3-center heading" id="workexperience">WORK EXPERIENCE 💼</div>
-		<div class="w3-container w3-white section" style="padding: 0px">
-			<div class="w3-row" style="padding: 0px">
-				<ul class="w3-ul w3-card-4 w3-white w3-center class text" style="width: 100%">
-					<li>Jr. Data Scientist (Intern) at Zummit Infolabs. (Jan'22- March'22)</li>
-          				<li>Open Source Contributor at Girlscript Winter of Contributing. (Sep 2021 - Dec 2021) </li>
-					<li>Data Science and Bussiness Analytics Intern at The Sparks Foundation. (Sep 2021 - Oct 2021) </li>
-					<li>Machine Learning Intern at Verzeo. (May 2021 - Jun 2021) </li>
-				</ul>
-			</div>
-		</div>
-
-
-		<!-- Contact Me -->
-		<div class="w3-center heading" id="contact">😈FEEL FREE TO GET IN TOUCH👻</div>
-		<div class="w3-container w3-white w3-card-4 section">
-			<div class="w3-row w3-center" style="padding-top: 16px; padding-bottom: 16px">
-				<div class="w3-col s4">
-					<a href="https://www.facebook.com/kishlay.kumar.50159/" title="Facebook" target="_blank"><img
-							src="fb.png" width="64px" height="64px"></a>
-				</div>
-				<div class="w3-col s4">
-					<a href="http://www.linkedin.com/in/-kishlaykumar-/" title="Linkedin" target="_blank"><img
-							src="linkedin.png" width="64px" height="64px"></a>
-				</div>
-				<div class="w3-col s4">
-					<a href="https://github.com/kishlayaug15/" title="Github" target="_blank"><img src="github.png"
-							width="64px" height="64px"></a>
-				</div>
-			</div>
-		</div>
-
-		<script>
-			function w3_open() {
-				if (mySidebar.style.display === 'block') {
-					mySidebar.style.display = 'none';
-				} else {
-					mySidebar.style.display = 'block';
-				}
-			}
-
-			// Close the sidebar with the close button
-			function w3_close() {
-				mySidebar.style.display = "none";
-			}
-		</script>
-	</body>
-
-<</html>
-
+    // simple contact form behaviour (demo only)
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Thanks! Your message was captured (demo). Replace this handler to connect to your backend or email service.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
