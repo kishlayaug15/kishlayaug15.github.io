@@ -1,471 +1,406 @@
+/*
+Portfolio React App (single-file component)
+- Default export: App
+- Uses: react, react-router-dom, framer-motion, tailwindcss
+
+Setup notes (put in README or terminal):
+1. Create app: `npm create vite@latest my-portfolio --template react` or `npx create-react-app my-portfolio`
+2. Install deps:
+   npm install react-router-dom framer-motion
+3. Install and configure Tailwind CSS (follow Tailwind docs for CRA/Vite).
+4. Drop this file as `src/App.jsx`, make sure index.jsx renders <App /> inside BrowserRouter (this file already includes BrowserRouter).
+5. Run: `npm run dev` or `npm start`.
+
+This single-file component provides multiple pages, animated transitions, responsive layout, and placeholders for your content. Replace the placeholder text and images with your real data.
+*/
+
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
-// Sample data tuned for an Analyst role
-const profile = {
-  name: 'Kishlay Kumar',
-  title: 'Data & Web Scraping Analyst',
-  location: 'India',
-  summary:
-    'Analytical-minded professional with 1+ years experience in software testing, web scraping and data analysis. I transform noisy data into reliable insights and automate repetitive workflows to accelerate decisions.',
-  email: 'kishlay@example.com',
-  phone: '+91 98765 43210',
-  linkedin: 'https://www.linkedin.com/in/-kishlaykumar-',
-};
-
-const skills = [
-  { name: 'Python', level: 90 },
-  { name: 'Web Scraping (BeautifulSoup, Requests)', level: 88 },
-  { name: 'Selenium / Playwright', level: 80 },
-  { name: 'SQL & Databases', level: 85 },
-  { name: 'Pandas / NumPy', level: 87 },
-  { name: 'Testing & QA', level: 82 },
-  { name: 'Data Visualization', level: 78 },
-  { name: 'React (Frontend)', level: 70 },
-];
-
-const experience = [
-  {
-    role: 'Freelance Project Consultant',
-    company: 'Self-employed',
-    period: 'Sep 2023 - Present',
-    bullets: [
-      'Built automated scraping pipelines to collect financial and product data from 50+ sources.',
-      'Validated and normalized incoming feeds; reduced data-cleaning time by 60%.',
-      'Delivered dashboards and CSV deliverables to clients on schedule.' ,
-    ],
-  },
-  {
-    role: 'Programmer Analyst Intern',
-    company: 'Cognizant Technology Solutions',
-    period: 'Mar 2023 - Jul 2023',
-    bullets: [
-      'Contributed to backend testing and automation frameworks.',
-      'Performed data validation and created end-to-end test cases.',
-    ],
-  },
-];
-
-const projects = [
-  {
-    title: 'E-Commerce Price Scraper & Analyzer',
-    desc: 'End-to-end scraper pipeline that collects, deduplicates and analyzes pricing across multiple retailers for competitor benchmarking.',
-    tech: ['Python', 'Requests', 'SQLite', 'Pandas', 'Matplotlib'],
-    link: '#',
-  },
-  {
-    title: 'Instagram Engagement Monitor (Prototype)',
-    desc: 'A Selenium-based script to collect likes/comments metadata per-post and summarize engagement trends.',
-    tech: ['Selenium', 'Python', 'Pandas'],
-    link: '#',
-  },
-  {
-    title: 'Automated Test Runner & Reporter',
-    desc: 'A test harness that runs suites, captures logs and generates HTML reports for QA teams.',
-    tech: ['PyTest', 'Python', 'Jenkins'],
-    link: '#',
-  },
-];
-
-// Small utility components
-const Container = ({ children }) => (
-  <div className="max-w-5xl mx-auto px-6 sm:px-8 py-10">{children}</div>
-);
-
-const navItems = [
-  { to: '/', label: 'Home' },
-  { to: '/about', label: 'About' },
-  { to: '/skills', label: 'Skills' },
-  { to: '/experience', label: 'Experience' },
-  { to: '/projects', label: 'Projects' },
-  { to: '/contact', label: 'Contact' },
-];
-
-function Navbar() {
+// --- Small helper components ---
+function IconLogo({ initials = 'YK' }){
   return (
-    <nav className="w-full bg-gradient-to-r from-slate-800 via-slate-900 to-black text-white sticky top-0 z-40 shadow-lg">
-      <Container>
-        <div className="flex items-center justify-between py-4">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center font-bold">KK</div>
-            <div>
-              <div className="font-semibold">{profile.name}</div>
-              <div className="text-xs opacity-70">{profile.title}</div>
-            </div>
-          </Link>
+    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-teal-300 to-blue-400 grid place-items-center font-bold text-gray-900">
+      {initials}
+    </div>
+  );
+}
 
-          <div className="hidden md:flex gap-6 items-center">
-            {navItems.map((n) => (
-              <Link key={n.to} to={n.to} className="text-sm hover:opacity-90 transition-opacity">
-                {n.label}
-              </Link>
-            ))}
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm px-3 py-1 bg-indigo-600 rounded-md shadow-sm hover:brightness-110"
-            >
-              LinkedIn
-            </a>
-          </div>
-
-          <div className="md:hidden">
-            <MobileMenu />
-          </div>
+function Nav(){
+  return (
+    <nav className="bg-slate-900/60 backdrop-blur-md rounded-full px-4 py-2 flex items-center justify-between shadow-lg">
+      <div className="flex items-center gap-3">
+        <IconLogo />
+        <div>
+          <div className="font-extrabold text-slate-100">Your Name</div>
+          <div className="text-xs text-slate-300">Product / Business Analyst</div>
         </div>
-      </Container>
+      </div>
+
+      <div className="hidden md:flex items-center gap-4 text-slate-300 font-semibold">
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/about">About</NavLink>
+        <NavLink to="/skills">Skills</NavLink>
+        <NavLink to="/experience">Experience</NavLink>
+        <NavLink to="/projects">Projects</NavLink>
+        <NavLink to="/contact">Contact</NavLink>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <a href="#contact" className="hidden md:inline-block bg-teal-300 text-slate-900 px-3 py-1 rounded-lg font-bold">Hire Me</a>
+        <MobileMenu />
+      </div>
     </nav>
   );
 }
 
-function MobileMenu() {
+function MobileMenu(){
   const [open, setOpen] = React.useState(false);
   return (
-    <div className="relative">
-      <button
-        onClick={() => setOpen((s) => !s)}
-        className="p-2 rounded-md bg-white/10 hover:bg-white/20"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M4 6h16M4 12h16M4 18h16" stroke="white" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-      </button>
-
-      {open && (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute right-0 mt-2 w-48 bg-slate-900 p-3 rounded-md shadow-lg"
-        >
-          <div className="flex flex-col gap-2">
-            {navItems.map((n) => (
-              <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="text-white">
-                {n.label}
-              </Link>
-            ))}
-            <a href={profile.linkedin} target="_blank" rel="noreferrer" className="text-white">
-              LinkedIn
-            </a>
-          </div>
-        </motion.div>
-      )}
-    </div>
-  );
-}
-
-function Home() {
-  return (
-    <Container>
-      <motion.section
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center"
-      >
-        <div className="md:col-span-2">
-          <motion.h1
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl font-extrabold leading-tight"
+    <div className="md:hidden relative">
+      <button onClick={()=>setOpen(v=>!v)} aria-label="menu" className="text-slate-300 text-xl">☰</button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{opacity:0, y:-10}}
+            animate={{opacity:1, y:0}}
+            exit={{opacity:0, y:-10}}
+            className="absolute right-0 mt-2 w-48 bg-slate-800/80 backdrop-blur rounded-lg shadow-lg p-3 z-50"
           >
-            Hi, I'm {profile.name} — a <span className="text-indigo-500">Data & Web Scraping Analyst</span>.
-          </motion.h1>
-
-          <motion.p className="mt-5 text-lg text-slate-300" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-            {profile.summary}
-          </motion.p>
-
-          <div className="mt-6 flex gap-3">
-            <Link to="/projects" className="inline-block px-5 py-3 bg-indigo-600 rounded-md font-medium shadow hover:scale-105 transform transition">
-              View Projects
-            </Link>
-            <Link to="/contact" className="inline-block px-5 py-3 border rounded-md font-medium hover:opacity-90">
-              Get in touch
-            </Link>
-          </div>
-
-          <motion.div className="mt-8 grid grid-cols-3 gap-3 text-sm text-slate-300" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}>
-            <StatCard label="Years Experience" value="1+" />
-            <StatCard label="Tools" value="Python, SQL" />
-            <StatCard label="Open-source" value="Contribs" />
+            <div className="flex flex-col gap-2 text-slate-200">
+              <NavLink to="/" onClick={()=>setOpen(false)}>Home</NavLink>
+              <NavLink to="/about" onClick={()=>setOpen(false)}>About</NavLink>
+              <NavLink to="/skills" onClick={()=>setOpen(false)}>Skills</NavLink>
+              <NavLink to="/experience" onClick={()=>setOpen(false)}>Experience</NavLink>
+              <NavLink to="/projects" onClick={()=>setOpen(false)}>Projects</NavLink>
+              <NavLink to="/contact" onClick={()=>setOpen(false)}>Contact</NavLink>
+            </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function NavLink({ to, children, onClick }){
+  return (
+    <Link to={to} onClick={onClick} className="hover:text-white transition-colors">{children}</Link>
+  );
+}
+
+// --- Page transition wrapper using location ---
+function AnimatedRoutes(){
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
+        <Route path="/skills" element={<PageWrapper><Skills /></PageWrapper>} />
+        <Route path="/experience" element={<PageWrapper><Experience /></PageWrapper>} />
+        <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
+        <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+        <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+function PageWrapper({ children }){
+  return (
+    <motion.div
+      initial={{opacity:0, y:8}}
+      animate={{opacity:1, y:0}}
+      exit={{opacity:0, y:-8}}
+      transition={{duration:0.36}}
+      className="mt-6"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// --- Pages ---
+function Home(){
+  return (
+    <div className="grid md:grid-cols-2 gap-6 items-center">
+      <motion.section className="p-6 bg-slate-800/60 rounded-2xl shadow-xl"
+        initial={{opacity:0, x:-12}}
+        animate={{opacity:1, x:0}}
+        transition={{duration:0.5}}
+      >
+        <h1 className="text-3xl md:text-4xl font-extrabold text-white">Hi, I'm <span className="text-teal-300">Your Name</span></h1>
+        <p className="mt-3 text-slate-300">Product & Business Analyst who translates ambiguity into action: user stories, data insights and product specs that move the needle.</p>
+
+        <div className="mt-5 flex flex-wrap gap-2">
+          <Tag>Tableau</Tag>
+          <Tag>SQL</Tag>
+          <Tag>Python</Tag>
+          <Tag>Figma</Tag>
+          <Tag>Jira</Tag>
         </div>
 
-        <motion.div
-          className="bg-gradient-to-tr from-slate-800 to-slate-900 p-6 rounded-2xl border border-white/5"
-          initial={{ scale: 0.98, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.3 }}
+        <div className="mt-6 flex gap-3">
+          <a href="/projects" className="inline-block bg-teal-300 text-slate-900 font-bold px-4 py-2 rounded-lg">View Projects</a>
+          <a href="/contact" className="inline-block text-slate-300 border border-slate-700 px-4 py-2 rounded-lg">Contact</a>
+        </div>
+      </motion.section>
+
+      <motion.div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800/50 shadow-lg flex flex-col items-center"
+        initial={{opacity:0, x:12}}
+        animate={{opacity:1, x:0}}
+        transition={{duration:0.5, delay:0.12}}
+      >
+        <div className="w-56 h-56 rounded-xl overflow-hidden bg-gradient-to-br from-slate-700 to-slate-900 grid place-items-center">
+          {/* Replace with real image */}
+          <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100%" height="100%" fill="#0b1220" rx="16"/>
+            <text x="50%" y="50%" fill="#6ee7b7" fontSize="14" fontFamily="Arial" textAnchor="middle" alignmentBaseline="middle">Your Photo</text>
+          </svg>
+        </div>
+
+        <div className="mt-4 text-slate-300 text-center">
+          <div className="font-semibold text-white">Your Name</div>
+          <div className="text-sm">Analyst • Problem-solver • Data-minded</div>
+        </div>
+
+        <motion.div className="mt-4 grid grid-cols-2 gap-3 w-full"
+          initial={{opacity:0, y:6}}
+          animate={{opacity:1, y:0}}
+          transition={{delay:0.2}}
         >
-          <div className="w-full flex flex-col items-center gap-4">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center text-white text-2xl font-bold">KK</div>
-            <div className="text-center">
-              <div className="font-semibold text-lg">{profile.name}</div>
-              <div className="text-sm opacity-70">{profile.title}</div>
-            </div>
-
-            <div className="w-full mt-3">
-              <ContactMini />
-            </div>
-          </div>
+          <Stat label="Experience" value="1 yr" />
+          <Stat label="Projects" value="5+" />
         </motion.div>
-      </motion.section>
-
-      <motion.section className="mt-14" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-        <h3 className="text-xl font-semibold">Highlighted Skills</h3>
-        <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {skills.slice(0, 4).map((s) => (
-            <div key={s.name} className="p-4 bg-white/3 rounded-md">
-              <div className="flex justify-between items-center">
-                <div className="font-medium">{s.name}</div>
-                <div className="text-sm opacity-70">{s.level}%</div>
-              </div>
-              <div className="h-2 bg-white/10 rounded-full mt-3 overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-indigo-500 to-pink-500" style={{ width: `${s.level}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </motion.section>
-    </Container>
-  );
-}
-
-function StatCard({ label, value }) {
-  return (
-    <div className="p-3 bg-white/3 rounded-md">
-      <div className="text-2xl font-bold">{value}</div>
-      <div className="text-xs opacity-70 mt-1">{label}</div>
+      </motion.div>
     </div>
   );
 }
 
-function ContactMini() {
+function About(){
   return (
-    <div className="text-sm text-slate-200">
-      <div className="flex items-center gap-3">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="opacity-80"><path d="M3 7v10l4-3 4 3 4-3 4 3V7" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-        <div>{profile.location}</div>
-      </div>
-      <div className="mt-2">
-        <div className="font-medium">{profile.email}</div>
-        <div className="text-xs opacity-70">{profile.phone}</div>
+    <div className="grid md:grid-cols-3 gap-6">
+      <motion.div className="md:col-span-2 p-6 bg-slate-800/60 rounded-2xl shadow-inner"
+        initial={{opacity:0, x:-8}}
+        animate={{opacity:1, x:0}}
+      >
+        <h2 className="text-2xl font-bold text-white">About</h2>
+        <p className="mt-3 text-slate-300">I'm a detail-oriented analyst with hands-on experience in content moderation workflows, basic automation, and dashboarding. I enjoy turning messy data into clear stories and aligning stakeholders around measurable goals.</p>
+
+        <h3 className="mt-4 font-semibold text-white">Work style</h3>
+        <ul className="mt-2 text-slate-300 list-disc list-inside space-y-1">
+          <li>Data-first decision making: exploratory SQL + dashboards</li>
+          <li>Collaborative: clear JIRA tickets, user stories, and acceptance criteria</li>
+          <li>Rapid prototyping: Figma flows and lean experiments</li>
+        </ul>
+      </motion.div>
+
+      <motion.aside className="p-6 bg-slate-900/70 rounded-2xl shadow-lg"
+        initial={{opacity:0, x:8}}
+        animate={{opacity:1, x:0}}
+      >
+        <h4 className="text-white font-semibold">Quick facts</h4>
+        <div className="mt-3 text-slate-300 space-y-2">
+          <div><span className="text-slate-400">Location:</span> India</div>
+          <div><span className="text-slate-400">Availability:</span> Open to work</div>
+          <div><span className="text-slate-400">Role preference:</span> Business Analyst / Product Analyst</div>
+        </div>
+
+        <div className="mt-4">
+          <a className="block text-center bg-teal-300 text-slate-900 font-bold px-3 py-2 rounded-md">Download Resume</a>
+        </div>
+      </motion.aside>
+    </div>
+  );
+}
+
+function Skills(){
+  const skills = [
+    {name:'SQL', level:90},
+    {name:'Tableau / Power BI', level:82},
+    {name:'Python (pandas)', level:60},
+    {name:'Jira / Confluence', level:84},
+    {name:'Figma', level:58},
+    {name:'Requirement Gathering', level:78}
+  ];
+
+  return (
+    <div className="p-4 bg-slate-800/50 rounded-2xl">
+      <h2 className="text-2xl font-bold text-white">Skills</h2>
+      <p className="text-slate-300 mt-2">Tools and proficiencies relevant to analyst roles.</p>
+
+      <div className="mt-4 grid gap-3">
+        {skills.map(s=> (
+          <motion.div key={s.name} className="p-3 bg-slate-900/60 rounded-lg"
+            initial={{opacity:0, y:6}}
+            whileInView={{opacity:1, y:0}}
+            viewport={{once:true}}
+          >
+            <div className="flex justify-between items-center">
+              <div className="text-slate-200 font-semibold">{s.name}</div>
+              <div className="text-slate-400 text-sm">{s.level}%</div>
+            </div>
+            <div className="mt-2 h-2 bg-slate-700 rounded-full overflow-hidden">
+              <motion.div className="h-full bg-gradient-to-r from-teal-400 to-blue-400"
+                initial={{width:0}}
+                animate={{width: `${s.level}%`}}
+                transition={{duration:0.9, ease:'easeOut'}}
+              />
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
 }
 
-function About() {
+function Experience(){
+  const items = [
+    {role:'Content Moderator — Genpact', period:'Aug 2023 — Present', bullets:[
+      'Reviewed and categorized content with accurate policy enforcement.',
+      'Generated weekly trend summaries used by analysts.',
+      'Implemented small automation scripts to speed triage.'
+    ]},
+    {role:'Intern — Sample Company', period:'Jun 2022 — Jul 2023', bullets:[
+      'Built a dashboard to track engagement and retention using SQL + Tableau.'
+    ]}
+  ];
+
   return (
-    <Container>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-        <h2 className="text-3xl font-bold">About Me</h2>
-        <p className="mt-4 text-slate-300 leading-relaxed">
-          {profile.summary} I focus on building robust data pipelines, end-to-end scraping solutions and clear reproducible analysis. I enjoy turning ambiguous requirements into testable workflows and delivering readable reports and visualizations that stakeholders trust.
-        </p>
-
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white/3 p-5 rounded-lg">
-            <h4 className="font-semibold">Core Strengths</h4>
-            <ul className="mt-3 list-disc list-inside text-slate-200">
-              <li>Data collection & cleansing</li>
-              <li>Automated testing and validation</li>
-              <li>ETL & Scheduling</li>
-              <li>Stakeholder-facing reports</li>
-            </ul>
-          </div>
-
-          <div className="bg-white/3 p-5 rounded-lg">
-            <h4 className="font-semibold">Tools & Platforms</h4>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {skills.map((s) => (
-                <span key={s.name} className="px-3 py-1 bg-white/6 rounded-full text-sm">{s.name}</span>
-              ))}
+    <div className="space-y-4">
+      <h2 className="text-2xl font-bold text-white">Experience</h2>
+      <div className="mt-3 grid gap-3">
+        {items.map((it,idx)=> (
+          <motion.div key={idx} className="p-4 bg-slate-900/60 rounded-xl shadow-inner"
+            initial={{opacity:0, y:6}}
+            whileInView={{opacity:1, y:0}}
+            viewport={{once:true}}
+          >
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="font-semibold text-white">{it.role}</div>
+                <div className="text-slate-400 text-sm">{it.period}</div>
+              </div>
             </div>
-          </div>
-        </div>
-      </motion.div>
-    </Container>
+            <ul className="mt-3 text-slate-300 list-disc list-inside space-y-1">
+              {it.bullets.map((b,i)=>(<li key={i}>{b}</li>))}
+            </ul>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 }
 
-function Skills() {
-  return (
-    <Container>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <h2 className="text-3xl font-bold">Skills</h2>
-        <p className="mt-3 text-slate-300">Technical skills, libraries and methodologies I use every day.</p>
-
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white/3 p-5 rounded-lg">
-            <h4 className="font-semibold">Technical</h4>
-            <div className="mt-4 space-y-3">
-              {skills.map((s) => (
-                <SkillBar key={s.name} name={s.name} level={s.level} />
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white/3 p-5 rounded-lg">
-            <h4 className="font-semibold">Methodologies</h4>
-            <ul className="mt-4 list-disc list-inside text-slate-200">
-              <li>Test-Driven Development & Automated Tests</li>
-              <li>Version Control & Code Reviews</li>
-              <li>Data Validation & Schema Checks</li>
-              <li>Agile / Scrum Collaboration</li>
-            </ul>
-          </div>
-        </div>
-      </motion.div>
-    </Container>
-  );
-}
-
-function SkillBar({ name, level }) {
+function Projects(){
+  const projects = [
+    {title:'Customer Churn Dashboard', desc:'Tableau dashboard highlighting churn drivers using cohort analysis. SQL pipelines for data prep.', tags:['Tableau','SQL'], link:'#'},
+    {title:'Policy Classifier (Prototype)', desc:'Prototype script that scores content using keyword heuristics to speed triage.', tags:['Python','Automation'], link:'#'}
+  ];
   return (
     <div>
-      <div className="flex justify-between text-sm">
-        <div>{name}</div>
-        <div className="opacity-70">{level}%</div>
-      </div>
-      <div className="h-2 bg-white/10 rounded-full mt-2 overflow-hidden">
-        <motion.div initial={{ width: 0 }} animate={{ width: `${level}%` }} transition={{ duration: 0.8 }} className="h-full bg-gradient-to-r from-indigo-500 to-pink-500" />
+      <h2 className="text-2xl font-bold text-white">Projects</h2>
+      <div className="mt-4 grid md:grid-cols-2 gap-4">
+        {projects.map((p,idx)=> (
+          <motion.article key={idx} className="p-4 bg-slate-800/60 rounded-xl"
+            initial={{opacity:0, y:8}}
+            whileInView={{opacity:1, y:0}}
+            viewport={{once:true}}
+          >
+            <div className="flex justify-between items-start">
+              <h3 className="font-semibold text-white">{p.title}</h3>
+              <div className="text-slate-400 text-sm">{p.tags.join(' • ')}</div>
+            </div>
+            <p className="mt-2 text-slate-300">{p.desc}</p>
+            <div className="mt-3 flex gap-2">
+              <a href={p.link} className="text-sm text-teal-300 font-semibold">View</a>
+              <a href="#" className="text-sm text-slate-400">Source</a>
+            </div>
+          </motion.article>
+        ))}
       </div>
     </div>
   );
 }
 
-function Experience() {
+function Contact(){
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    alert('Demo: message captured. Hook to EmailJS / backend for real submissions.');
+    e.target.reset();
+  };
+
   return (
-    <Container>
-      <h2 className="text-3xl font-bold">Work Experience</h2>
-      <div className="mt-6 space-y-6">
-        {experience.map((e) => (
-          <motion.div key={e.role} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="bg-white/3 p-5 rounded-lg">
-            <div className="flex justify-between items-center">
-              <div>
-                <div className="font-semibold text-lg">{e.role}</div>
-                <div className="text-sm opacity-80">{e.company}</div>
-              </div>
-              <div className="text-sm opacity-70">{e.period}</div>
-            </div>
+    <div className="grid md:grid-cols-2 gap-6 items-start">
+      <motion.form onSubmit={handleSubmit} className="p-6 bg-slate-800/60 rounded-2xl"
+        initial={{opacity:0, x:-6}}
+        animate={{opacity:1, x:0}}
+      >
+        <h2 className="text-2xl font-bold text-white">Contact</h2>
+        <p className="text-slate-300 mt-2">Want to collaborate? Send a note and I will reply.</p>
 
-            <ul className="mt-3 list-disc list-inside text-slate-200">
-              {e.bullets.map((b, i) => (
-                <li key={i}>{b}</li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
-      </div>
-    </Container>
-  );
-}
-
-function Projects() {
-  return (
-    <Container>
-      <h2 className="text-3xl font-bold">Projects</h2>
-      <p className="mt-3 text-slate-300">Selected projects that showcase analysis, automation and product-focused thinking.</p>
-
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((p) => (
-          <motion.div key={p.title} whileHover={{ y: -6 }} className="bg-white/3 p-5 rounded-lg border border-white/5">
-            <div className="flex justify-between items-start gap-3">
-              <div>
-                <div className="font-semibold text-lg">{p.title}</div>
-                <div className="text-sm opacity-80 mt-1">{p.desc}</div>
-              </div>
-              <div className="text-xs opacity-70">{p.tech.join(' • ')}</div>
-            </div>
-
-            <div className="mt-4 flex gap-2">
-              <a href={p.link} className="text-sm px-3 py-2 border rounded-md">View</a>
-              <button className="text-sm px-3 py-2 bg-indigo-600 rounded-md">Demo</button>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </Container>
-  );
-}
-
-function Contact() {
-  return (
-    <Container>
-      <h2 className="text-3xl font-bold">Contact</h2>
-      <p className="mt-3 text-slate-300">I’m open to freelance and full-time opportunities — especially projects that need robust data pipelines and reliable automation.</p>
-
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white/3 p-6 rounded-lg">
-          <h4 className="font-semibold">Get in touch</h4>
-          <div className="mt-4 text-sm text-slate-200">
-            <div>Email: {profile.email}</div>
-            <div className="mt-1">Phone: {profile.phone}</div>
-            <div className="mt-1">Location: {profile.location}</div>
-          </div>
-
-          <form className="mt-6 space-y-3" onSubmit={(e) => e.preventDefault()}>
-            <input type="text" placeholder="Your name" className="w-full p-3 rounded-md bg-white/5" />
-            <input type="email" placeholder="Email" className="w-full p-3 rounded-md bg-white/5" />
-            <textarea placeholder="Message" className="w-full p-3 rounded-md bg-white/5 h-28" />
-            <button className="px-5 py-3 bg-indigo-600 rounded-md">Send message</button>
-          </form>
-        </div>
-
-        <div className="bg-white/3 p-6 rounded-lg">
-          <h4 className="font-semibold">Quick links</h4>
-          <div className="mt-4 flex flex-col gap-2 text-sm">
-            <a href={profile.linkedin} target="_blank" rel="noreferrer" className="underline">LinkedIn</a>
-            <a href="#" className="underline">GitHub</a>
-            <a href="#" className="underline">Resume (PDF)</a>
-          </div>
-
-          <div className="mt-6">
-            <h5 className="font-medium">Follow</h5>
-            <div className="flex gap-3 mt-3">
-              <a href="#" className="px-3 py-2 bg-white/5 rounded-md">Twitter</a>
-              <a href="#" className="px-3 py-2 bg-white/5 rounded-md">Medium</a>
-            </div>
+        <div className="mt-4 grid gap-3">
+          <input name="name" placeholder="Your name" required className="p-3 rounded-md bg-slate-900/40 border border-slate-700 text-white" />
+          <input name="email" placeholder="Email" type="email" required className="p-3 rounded-md bg-slate-900/40 border border-slate-700 text-white" />
+          <input name="subject" placeholder="Subject" className="p-3 rounded-md bg-slate-900/40 border border-slate-700 text-white" />
+          <textarea name="message" rows={6} placeholder="Message" className="p-3 rounded-md bg-slate-900/40 border border-slate-700 text-white" />
+          <div className="flex justify-end">
+            <button className="bg-teal-300 text-slate-900 font-bold px-4 py-2 rounded-md">Send</button>
           </div>
         </div>
-      </div>
-    </Container>
+      </motion.form>
+
+      <motion.aside className="p-6 bg-slate-900/70 rounded-2xl"
+        initial={{opacity:0, x:6}}
+        animate={{opacity:1, x:0}}
+      >
+        <h3 className="text-white font-semibold">Get in touch</h3>
+        <div className="mt-3 text-slate-300 space-y-2">
+          <div><span className="text-slate-400">Email:</span> your.email@example.com</div>
+          <div><span className="text-slate-400">Phone:</span> +91 99999 99999</div>
+          <div><span className="text-slate-400">Location:</span> India</div>
+        </div>
+
+        <div className="mt-4 flex gap-2">
+          <a className="px-3 py-1 rounded-md bg-slate-800/40 text-slate-200">LinkedIn</a>
+          <a className="px-3 py-1 rounded-md bg-slate-800/40 text-slate-200">GitHub</a>
+        </div>
+      </motion.aside>
+    </div>
   );
 }
 
-function Footer() {
+function NotFound(){
   return (
-    <footer className="mt-16 py-8 text-center text-sm text-slate-400">
-      <Container>
-        <div>© {new Date().getFullYear()} {profile.name}. Built with React + Tailwind + Framer Motion.</div>
-      </Container>
-    </footer>
+    <div className="p-6 bg-slate-800/60 rounded-2xl text-center">
+      <h2 className="text-2xl font-bold text-white">Page not found</h2>
+      <p className="text-slate-300 mt-2">The page you're looking for doesn't exist.</p>
+      <div className="mt-4"><Link to="/" className="text-teal-300 font-semibold">Go back home</Link></div>
+    </div>
   );
 }
 
-export default function App() {
+// --- Small UI atoms ---
+function Tag({ children }){ return <span className="px-2 py-1 bg-slate-700/60 text-slate-200 rounded-md text-sm font-semibold">{children}</span> }
+function Stat({ label, value }){ return (<div className="p-3 bg-slate-900/50 rounded-lg text-center"><div className="font-bold text-white">{value}</div><div className="text-slate-300 text-sm">{label}</div></div>) }
+
+// --- App (default export) ---
+export default function App(){
   return (
     <Router>
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white"> 
-        <Navbar />
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 text-slate-100 p-6 md:p-12">
+        <div className="max-w-6xl mx-auto">
+          <Nav />
 
-        <main className="pt-8 pb-16">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/skills" element={<Skills />} />
-            <Route path="/experience" element={<Experience />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
-        </main>
+          <main className="mt-6">
+            <AnimatedRoutes />
+          </main>
 
-        <Footer />
+          <footer className="mt-12 text-center text-slate-400">
+            <div className="text-sm">Made with care • © {new Date().getFullYear()} Your Name</div>
+          </footer>
+        </div>
       </div>
     </Router>
   );
