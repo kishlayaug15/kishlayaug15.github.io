@@ -1,407 +1,440 @@
-/*
-Portfolio React App (single-file component)
-- Default export: App
-- Uses: react, react-router-dom, framer-motion, tailwindcss
-
-Setup notes (put in README or terminal):
-1. Create app: `npm create vite@latest my-portfolio --template react` or `npx create-react-app my-portfolio`
-2. Install deps:
-   npm install react-router-dom framer-motion
-3. Install and configure Tailwind CSS (follow Tailwind docs for CRA/Vite).
-4. Drop this file as `src/App.jsx`, make sure index.jsx renders <App /> inside BrowserRouter (this file already includes BrowserRouter).
-5. Run: `npm run dev` or `npm start`.
-
-This single-file component provides multiple pages, animated transitions, responsive layout, and placeholders for your content. Replace the placeholder text and images with your real data.
-*/
-
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-
-// --- Small helper components ---
-function IconLogo({ initials = 'YK' }){
-  return (
-    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-teal-300 to-blue-400 grid place-items-center font-bold text-gray-900">
-      {initials}
-    </div>
-  );
-}
-
-function Nav(){
-  return (
-    <nav className="bg-slate-900/60 backdrop-blur-md rounded-full px-4 py-2 flex items-center justify-between shadow-lg">
-      <div className="flex items-center gap-3">
-        <IconLogo />
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Analyst Portfolio — Kishlay Kumar</title>
+  <meta name="description" content="Analyst portfolio with Home, About, Skills, Experience, Projects, Contact. Multi-page SPA using hash routing." />
+  <style>
+    :root{
+      --bg:#0f1724;--panel:#0b1220;--muted:#9aa5b1;--accent:#4f46e5;--glass:rgba(255,255,255,0.04);
+      --glass-2:rgba(255,255,255,0.02);--success:#10b981;--danger:#ef4444;--radius:14px;
+      --glass-border: rgba(255,255,255,0.05);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;font-size:16px;background:linear-gradient(180deg,#071023 0%, #071326 60%);color:#e6eef6}
+    a{color:inherit;text-decoration:none}
+    /* layout */
+    .wrap{max-width:1100px;margin:32px auto;padding:28px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(2,6,23,0.7)}
+    header{display:flex;align-items:center;gap:18px;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:grid;place-items:center;font-weight:700}
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{padding:10px 14px;border-radius:10px;color:var(--muted);font-weight:600}
+    nav a.active{background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));color:#fff;box-shadow:0 6px 18px rgba(79,70,229,0.12)}
+    .actions{display:flex;gap:8px}
+    .btn{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#06b6d4);border:none;color:white;font-weight:700;cursor:pointer}
+    main{margin-top:20px}
+    /* card */
+    .card{background:linear-gradient(180deg,var(--glass), transparent);border:1px solid var(--glass-border);padding:18px;border-radius:12px}
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:22px;align-items:center}
+    .headline{font-size:28px;font-weight:700;line-height:1.05}
+    .muted{color:var(--muted)}
+    .tagline{margin-top:8px;color:var(--muted)}
+    .cta-row{margin-top:16px;display:flex;gap:12px}
+    .avatar{width:100%;height:100%;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#0f1724,#082032);display:grid;place-items:center}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    /* sections */
+    .layout{display:grid;grid-template-columns:1fr;gap:18px;margin-top:18px}
+    .grid-2{display:grid;grid-template-columns:1fr 380px;gap:18px}
+    /* skills */
+    .skills{display:flex;flex-direction:column;gap:12px}
+    .skill{display:flex;align-items:center;gap:12px}
+    .skill .bar{flex:1;height:12px;border-radius:999px;background:var(--glass-2);overflow:hidden}
+    .skill .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),#06b6d4);width:0/* animated */}
+    .skill .label{min-width:120px}
+    /* timeline */
+    .timeline{position:relative;padding-left:12px}
+    .timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(#2b3648,#122032)}
+    .event{position:relative;padding:14px 12px 14px 26px;border-radius:10px;margin-bottom:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border)}
+    .dot{position:absolute;left:-2px;top:22px;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 6px 14px rgba(79,70,229,0.18)}
+    /* projects */
+    .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .project{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);transition:transform .28s ease, box-shadow .28s ease}
+    .project:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .pill{padding:6px 8px;border-radius:999px;font-weight:700;font-size:13px;background:rgba(255,255,255,0.02);border:1px solid var(--glass-border)}
+    /* contact */
+    form{display:grid;gap:10px}
+    input,textarea{background:transparent;border:1px solid var(--glass-border);padding:10px;border-radius:8px;color:inherit}
+    textarea{min-height:120px}
+    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+    /* utilities */
+    .fade-in{opacity:0;transform:translateY(8px);transition:opacity .6s ease, transform .6s ease}
+    .in-view{opacity:1;transform:none}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid var(--glass-border)}
+    /* responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      .grid-2{grid-template-columns:1fr}
+      nav{display:none}
+      .mobile-nav{display:flex;gap:8px}
+    }
+    /* small */
+    .meta{color:var(--muted);font-size:14px}
+    .resume-link{background:transparent;border:1px dashed var(--glass-border);padding:8px 10px;border-radius:8px;color:var(--muted)}
+    /* headline typing */
+    .typewrap{display:inline-block;position:relative}
+    .cursor{display:inline-block;width:2px;background:#fff;height:1.1em;margin-left:6px;animation:blink .9s steps(2) infinite}
+    @keyframes blink{50%{opacity:0}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">AK</div>
         <div>
-          <div className="font-extrabold text-slate-100">Your Name</div>
-          <div className="text-xs text-slate-300">Product / Business Analyst</div>
+          <div style="font-weight:800">Kishlay Kumar</div>
+          <div class="meta">Analyst • Data & Insights</div>
         </div>
       </div>
 
-      <div className="hidden md:flex items-center gap-4 text-slate-300 font-semibold">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/about">About</NavLink>
-        <NavLink to="/skills">Skills</NavLink>
-        <NavLink to="/experience">Experience</NavLink>
-        <NavLink to="/projects">Projects</NavLink>
-        <NavLink to="/contact">Contact</NavLink>
+      <nav id="topNav">
+        <a href="#home" data-route="home" class="active">Home</a>
+        <a href="#about" data-route="about">About</a>
+        <a href="#skills" data-route="skills">Skills</a>
+        <a href="#experience" data-route="experience">Experience</a>
+        <a href="#projects" data-route="projects">Projects</a>
+        <a href="#contact" data-route="contact">Contact</a>
+      </nav>
+
+      <div class="actions">
+        <button class="resume-link" id="downloadResume">Download Resume</button>
+        <button class="btn" id="themeToggler">Theme</button>
       </div>
+    </header>
 
-      <div className="flex items-center gap-3">
-        <a href="#contact" className="hidden md:inline-block bg-teal-300 text-slate-900 px-3 py-1 rounded-lg font-bold">Hire Me</a>
-        <MobileMenu />
-      </div>
-    </nav>
-  );
-}
+    <main id="main">
+      <!-- content rendered here by JS (multi-page SPA via hash routing) -->
+    </main>
 
-function MobileMenu(){
-  const [open, setOpen] = React.useState(false);
-  return (
-    <div className="md:hidden relative">
-      <button onClick={()=>setOpen(v=>!v)} aria-label="menu" className="text-slate-300 text-xl">☰</button>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{opacity:0, y:-10}}
-            animate={{opacity:1, y:0}}
-            exit={{opacity:0, y:-10}}
-            className="absolute right-0 mt-2 w-48 bg-slate-800/80 backdrop-blur rounded-lg shadow-lg p-3 z-50"
-          >
-            <div className="flex flex-col gap-2 text-slate-200">
-              <NavLink to="/" onClick={()=>setOpen(false)}>Home</NavLink>
-              <NavLink to="/about" onClick={()=>setOpen(false)}>About</NavLink>
-              <NavLink to="/skills" onClick={()=>setOpen(false)}>Skills</NavLink>
-              <NavLink to="/experience" onClick={()=>setOpen(false)}>Experience</NavLink>
-              <NavLink to="/projects" onClick={()=>setOpen(false)}>Projects</NavLink>
-              <NavLink to="/contact" onClick={()=>setOpen(false)}>Contact</NavLink>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
+    <footer>
+      Built with ❤️ for analysts — Interactive, responsive, and easy to customize.
+    </footer>
+  </div>
 
-function NavLink({ to, children, onClick }){
-  return (
-    <Link to={to} onClick={onClick} className="hover:text-white transition-colors">{children}</Link>
-  );
-}
-
-// --- Page transition wrapper using location ---
-function AnimatedRoutes(){
-  const location = useLocation();
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-        <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
-        <Route path="/skills" element={<PageWrapper><Skills /></PageWrapper>} />
-        <Route path="/experience" element={<PageWrapper><Experience /></PageWrapper>} />
-        <Route path="/projects" element={<PageWrapper><Projects /></PageWrapper>} />
-        <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
-        <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
-      </Routes>
-    </AnimatePresence>
-  );
-}
-
-function PageWrapper({ children }){
-  return (
-    <motion.div
-      initial={{opacity:0, y:8}}
-      animate={{opacity:1, y:0}}
-      exit={{opacity:0, y:-8}}
-      transition={{duration:0.36}}
-      className="mt-6"
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// --- Pages ---
-function Home(){
-  return (
-    <div className="grid md:grid-cols-2 gap-6 items-center">
-      <motion.section className="p-6 bg-slate-800/60 rounded-2xl shadow-xl"
-        initial={{opacity:0, x:-12}}
-        animate={{opacity:1, x:0}}
-        transition={{duration:0.5}}
-      >
-        <h1 className="text-3xl md:text-4xl font-extrabold text-white">Hi, I'm <span className="text-teal-300">Your Name</span></h1>
-        <p className="mt-3 text-slate-300">Product & Business Analyst who translates ambiguity into action: user stories, data insights and product specs that move the needle.</p>
-
-        <div className="mt-5 flex flex-wrap gap-2">
-          <Tag>Tableau</Tag>
-          <Tag>SQL</Tag>
-          <Tag>Python</Tag>
-          <Tag>Figma</Tag>
-          <Tag>Jira</Tag>
+  <template id="homeTpl">
+    <section class="hero card fade-in">
+      <div>
+        <div class="headline">Hi, I'm <span style="color:var(--accent)">Kishlay</span> —
+          <span class="typewrap" id="typed">Data Analyst</span><span class="cursor"></span>
+        </div>
+        <div class="tagline">I turn data into decisions. Focused on analytics, visualization, and automation to drive business outcomes.</div>
+        <div class="cta-row">
+          <a class="btn" href="#projects">View Projects</a>
+          <a class="chip" href="#contact">Hire me</a>
         </div>
 
-        <div className="mt-6 flex gap-3">
-          <a href="/projects" className="inline-block bg-teal-300 text-slate-900 font-bold px-4 py-2 rounded-lg">View Projects</a>
-          <a href="/contact" className="inline-block text-slate-300 border border-slate-700 px-4 py-2 rounded-lg">Contact</a>
-        </div>
-      </motion.section>
-
-      <motion.div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800/50 shadow-lg flex flex-col items-center"
-        initial={{opacity:0, x:12}}
-        animate={{opacity:1, x:0}}
-        transition={{duration:0.5, delay:0.12}}
-      >
-        <div className="w-56 h-56 rounded-xl overflow-hidden bg-gradient-to-br from-slate-700 to-slate-900 grid place-items-center">
-          {/* Replace with real image */}
-          <svg width="160" height="160" xmlns="http://www.w3.org/2000/svg">
-            <rect width="100%" height="100%" fill="#0b1220" rx="16"/>
-            <text x="50%" y="50%" fill="#6ee7b7" fontSize="14" fontFamily="Arial" textAnchor="middle" alignmentBaseline="middle">Your Photo</text>
-          </svg>
-        </div>
-
-        <div className="mt-4 text-slate-300 text-center">
-          <div className="font-semibold text-white">Your Name</div>
-          <div className="text-sm">Analyst • Problem-solver • Data-minded</div>
-        </div>
-
-        <motion.div className="mt-4 grid grid-cols-2 gap-3 w-full"
-          initial={{opacity:0, y:6}}
-          animate={{opacity:1, y:0}}
-          transition={{delay:0.2}}
-        >
-          <Stat label="Experience" value="1 yr" />
-          <Stat label="Projects" value="5+" />
-        </motion.div>
-      </motion.div>
-    </div>
-  );
-}
-
-function About(){
-  return (
-    <div className="grid md:grid-cols-3 gap-6">
-      <motion.div className="md:col-span-2 p-6 bg-slate-800/60 rounded-2xl shadow-inner"
-        initial={{opacity:0, x:-8}}
-        animate={{opacity:1, x:0}}
-      >
-        <h2 className="text-2xl font-bold text-white">About</h2>
-        <p className="mt-3 text-slate-300">I'm a detail-oriented analyst with hands-on experience in content moderation workflows, basic automation, and dashboarding. I enjoy turning messy data into clear stories and aligning stakeholders around measurable goals.</p>
-
-        <h3 className="mt-4 font-semibold text-white">Work style</h3>
-        <ul className="mt-2 text-slate-300 list-disc list-inside space-y-1">
-          <li>Data-first decision making: exploratory SQL + dashboards</li>
-          <li>Collaborative: clear JIRA tickets, user stories, and acceptance criteria</li>
-          <li>Rapid prototyping: Figma flows and lean experiments</li>
-        </ul>
-      </motion.div>
-
-      <motion.aside className="p-6 bg-slate-900/70 rounded-2xl shadow-lg"
-        initial={{opacity:0, x:8}}
-        animate={{opacity:1, x:0}}
-      >
-        <h4 className="text-white font-semibold">Quick facts</h4>
-        <div className="mt-3 text-slate-300 space-y-2">
-          <div><span className="text-slate-400">Location:</span> India</div>
-          <div><span className="text-slate-400">Availability:</span> Open to work</div>
-          <div><span className="text-slate-400">Role preference:</span> Business Analyst / Product Analyst</div>
-        </div>
-
-        <div className="mt-4">
-          <a className="block text-center bg-teal-300 text-slate-900 font-bold px-3 py-2 rounded-md">Download Resume</a>
-        </div>
-      </motion.aside>
-    </div>
-  );
-}
-
-function Skills(){
-  const skills = [
-    {name:'SQL', level:90},
-    {name:'Tableau / Power BI', level:82},
-    {name:'Python (pandas)', level:60},
-    {name:'Jira / Confluence', level:84},
-    {name:'Figma', level:58},
-    {name:'Requirement Gathering', level:78}
-  ];
-
-  return (
-    <div className="p-4 bg-slate-800/50 rounded-2xl">
-      <h2 className="text-2xl font-bold text-white">Skills</h2>
-      <p className="text-slate-300 mt-2">Tools and proficiencies relevant to analyst roles.</p>
-
-      <div className="mt-4 grid gap-3">
-        {skills.map(s=> (
-          <motion.div key={s.name} className="p-3 bg-slate-900/60 rounded-lg"
-            initial={{opacity:0, y:6}}
-            whileInView={{opacity:1, y:0}}
-            viewport={{once:true}}
-          >
-            <div className="flex justify-between items-center">
-              <div className="text-slate-200 font-semibold">{s.name}</div>
-              <div className="text-slate-400 text-sm">{s.level}%</div>
+        <div style="margin-top:18px;display:flex;gap:12px;align-items:center">
+          <div class="card" style="flex:1">
+            <div style="font-weight:700">Key metrics</div>
+            <div style="display:flex;gap:12px;margin-top:10px">
+              <div class="chip">1 year+ experience</div>
+              <div class="chip">10+ projects</div>
+              <div class="chip">Python • SQL • Excel</div>
             </div>
-            <div className="mt-2 h-2 bg-slate-700 rounded-full overflow-hidden">
-              <motion.div className="h-full bg-gradient-to-r from-teal-400 to-blue-400"
-                initial={{width:0}}
-                animate={{width: `${s.level}%`}}
-                transition={{duration:0.9, ease:'easeOut'}}
-              />
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Experience(){
-  const items = [
-    {role:'Content Moderator — Genpact', period:'Aug 2023 — Present', bullets:[
-      'Reviewed and categorized content with accurate policy enforcement.',
-      'Generated weekly trend summaries used by analysts.',
-      'Implemented small automation scripts to speed triage.'
-    ]},
-    {role:'Intern — Sample Company', period:'Jun 2022 — Jul 2023', bullets:[
-      'Built a dashboard to track engagement and retention using SQL + Tableau.'
-    ]}
-  ];
-
-  return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-white">Experience</h2>
-      <div className="mt-3 grid gap-3">
-        {items.map((it,idx)=> (
-          <motion.div key={idx} className="p-4 bg-slate-900/60 rounded-xl shadow-inner"
-            initial={{opacity:0, y:6}}
-            whileInView={{opacity:1, y:0}}
-            viewport={{once:true}}
-          >
-            <div className="flex justify-between items-start">
-              <div>
-                <div className="font-semibold text-white">{it.role}</div>
-                <div className="text-slate-400 text-sm">{it.period}</div>
-              </div>
-            </div>
-            <ul className="mt-3 text-slate-300 list-disc list-inside space-y-1">
-              {it.bullets.map((b,i)=>(<li key={i}>{b}</li>))}
-            </ul>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Projects(){
-  const projects = [
-    {title:'Customer Churn Dashboard', desc:'Tableau dashboard highlighting churn drivers using cohort analysis. SQL pipelines for data prep.', tags:['Tableau','SQL'], link:'#'},
-    {title:'Policy Classifier (Prototype)', desc:'Prototype script that scores content using keyword heuristics to speed triage.', tags:['Python','Automation'], link:'#'}
-  ];
-  return (
-    <div>
-      <h2 className="text-2xl font-bold text-white">Projects</h2>
-      <div className="mt-4 grid md:grid-cols-2 gap-4">
-        {projects.map((p,idx)=> (
-          <motion.article key={idx} className="p-4 bg-slate-800/60 rounded-xl"
-            initial={{opacity:0, y:8}}
-            whileInView={{opacity:1, y:0}}
-            viewport={{once:true}}
-          >
-            <div className="flex justify-between items-start">
-              <h3 className="font-semibold text-white">{p.title}</h3>
-              <div className="text-slate-400 text-sm">{p.tags.join(' • ')}</div>
-            </div>
-            <p className="mt-2 text-slate-300">{p.desc}</p>
-            <div className="mt-3 flex gap-2">
-              <a href={p.link} className="text-sm text-teal-300 font-semibold">View</a>
-              <a href="#" className="text-sm text-slate-400">Source</a>
-            </div>
-          </motion.article>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function Contact(){
-  const handleSubmit = (e)=>{
-    e.preventDefault();
-    alert('Demo: message captured. Hook to EmailJS / backend for real submissions.');
-    e.target.reset();
-  };
-
-  return (
-    <div className="grid md:grid-cols-2 gap-6 items-start">
-      <motion.form onSubmit={handleSubmit} className="p-6 bg-slate-800/60 rounded-2xl"
-        initial={{opacity:0, x:-6}}
-        animate={{opacity:1, x:0}}
-      >
-        <h2 className="text-2xl font-bold text-white">Contact</h2>
-        <p className="text-slate-300 mt-2">Want to collaborate? Send a note and I will reply.</p>
-
-        <div className="mt-4 grid gap-3">
-          <input name="name" placeholder="Your name" required className="p-3 rounded-md bg-slate-900/40 border border-slate-700 text-white" />
-          <input name="email" placeholder="Email" type="email" required className="p-3 rounded-md bg-slate-900/40 border border-slate-700 text-white" />
-          <input name="subject" placeholder="Subject" className="p-3 rounded-md bg-slate-900/40 border border-slate-700 text-white" />
-          <textarea name="message" rows={6} placeholder="Message" className="p-3 rounded-md bg-slate-900/40 border border-slate-700 text-white" />
-          <div className="flex justify-end">
-            <button className="bg-teal-300 text-slate-900 font-bold px-4 py-2 rounded-md">Send</button>
+          </div>
+          <div class="avatar card" style="width:200px;height:140px">
+            <!-- placeholder avatar -->
+            <svg width="200" height="140" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="140" rx="12" fill="url(#g)"/>
+              <defs>
+               <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#0f1724"/><stop offset="1" stop-color="#072235"/></linearGradient>
+              </defs>
+              <g transform="translate(16,16)" fill="#cfe9ff" opacity="0.95">
+                <circle cx="36" cy="30" r="26" fill="#e6eef6" opacity="0.08"/>
+                <rect x="0" y="70" width="168" height="40" rx="8"/>
+              </g>
+            </svg>
           </div>
         </div>
-      </motion.form>
+      </div>
 
-      <motion.aside className="p-6 bg-slate-900/70 rounded-2xl"
-        initial={{opacity:0, x:6}}
-        animate={{opacity:1, x:0}}
-      >
-        <h3 className="text-white font-semibold">Get in touch</h3>
-        <div className="mt-3 text-slate-300 space-y-2">
-          <div><span className="text-slate-400">Email:</span> your.email@example.com</div>
-          <div><span className="text-slate-400">Phone:</span> +91 99999 99999</div>
-          <div><span className="text-slate-400">Location:</span> India</div>
-        </div>
+      <div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:800">Insights Dashboard</div>
+              <div class="muted">Quick summary — animated chart highlights</div>
+            </div>
+            <div class="chip">Live preview</div>
+          </div>
 
-        <div className="mt-4 flex gap-2">
-          <a className="px-3 py-1 rounded-md bg-slate-800/40 text-slate-200">LinkedIn</a>
-          <a className="px-3 py-1 rounded-md bg-slate-800/40 text-slate-200">GitHub</a>
-        </div>
-      </motion.aside>
-    </div>
-  );
-}
-
-function NotFound(){
-  return (
-    <div className="p-6 bg-slate-800/60 rounded-2xl text-center">
-      <h2 className="text-2xl font-bold text-white">Page not found</h2>
-      <p className="text-slate-300 mt-2">The page you're looking for doesn't exist.</p>
-      <div className="mt-4"><Link to="/" className="text-teal-300 font-semibold">Go back home</Link></div>
-    </div>
-  );
-}
-
-// --- Small UI atoms ---
-function Tag({ children }){ return <span className="px-2 py-1 bg-slate-700/60 text-slate-200 rounded-md text-sm font-semibold">{children}</span> }
-function Stat({ label, value }){ return (<div className="p-3 bg-slate-900/50 rounded-lg text-center"><div className="font-bold text-white">{value}</div><div className="text-slate-300 text-sm">{label}</div></div>) }
-
-// --- App (default export) ---
-export default function App(){
-  return (
-    <Router>
-      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 text-slate-100 p-6 md:p-12">
-        <div className="max-w-6xl mx-auto">
-          <Nav />
-
-          <main className="mt-6">
-            <AnimatedRoutes />
-          </main>
-
-          <footer className="mt-12 text-center text-slate-400">
-            <div className="text-sm">Made with care • © {new Date().getFullYear()} Your Name</div>
-          </footer>
+          <div style="margin-top:12px">
+            <svg id="barChart" width="100%" height="120" viewBox="0 0 600 120" preserveAspectRatio="none"></svg>
+          </div>
         </div>
       </div>
-    </Router>
-  );
-}
+    </section>
+  </template>
+
+  <template id="aboutTpl">
+    <section class="card fade-in">
+      <h2 style="margin:0">About</h2>
+      <p class="muted">Analyst profile summary</p>
+      <div style="display:flex;gap:18px;margin-top:12px;align-items:flex-start">
+        <div style="flex:1">
+          <p>I am an analytical thinker with experience in testing, web-scraping, and building dashboards. I enjoy converting messy datasets into clear, actionable insights, turning stakeholder questions into measurable experiments.</p>
+          <ul>
+            <li>Strong skills in Python, SQL, Excel, and data visualization</li>
+            <li>Experience with automation and web scraping</li>
+            <li>Practical knowledge of statistical methods and A/B testing</li>
+          </ul>
+        </div>
+        <div style="width:300px">
+          <div class="card">
+            <div style="font-weight:700">Contact</div>
+            <div class="muted" style="margin-top:8px">kumar@example.com</div>
+            <div class="muted">+91 98765 43210</div>
+            <div style="margin-top:8px"><a class="pill" href="#contact">Message</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="skillsTpl">
+    <section class="card fade-in">
+      <h2 style="margin:0">Skills</h2>
+      <div class="muted">Technical & analytical skills</div>
+      <div class="layout" style="margin-top:12px">
+        <div class="card">
+          <h3 style="margin:0">Core</h3>
+          <div class="skills" style="margin-top:10px">
+            <div class="skill"><div class="label" style="min-width:110px">Python</div><div class="bar"><div class="fill" data-p="92"></div></div><div style="width:56px;text-align:right">92%</div></div>
+            <div class="skill"><div class="label">SQL</div><div class="bar"><div class="fill" data-p="88"></div></div><div style="width:56px;text-align:right">88%</div></div>
+            <div class="skill"><div class="label">Excel</div><div class="bar"><div class="fill" data-p="86"></div></div><div style="width:56px;text-align:right">86%</div></div>
+            <div class="skill"><div class="label">Data Viz</div><div class="bar"><div class="fill" data-p="84"></div></div><div style="width:56px;text-align:right">84%</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0">Tools & Libraries</h3>
+          <div class="tags" style="margin-top:10px">
+            <div class="pill">Pandas</div>
+            <div class="pill">NumPy</div>
+            <div class="pill">Matplotlib</div>
+            <div class="pill">Plotly</div>
+            <div class="pill">Selenium</div>
+            <div class="pill">Tableau</div>
+            <div class="pill">PowerBI</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="experienceTpl">
+    <section class="card fade-in">
+      <h2 style="margin:0">Work experience</h2>
+      <div class="muted">Roles & contributions</div>
+      <div class="timeline" style="margin-top:14px">
+        <div class="event">
+          <div class="dot"></div>
+          <div style="font-weight:800">Freelance Project Consultant</div>
+          <div class="muted">Sep 2023 — Present</div>
+          <div style="margin-top:8px">Consulted on data collection, cleaning pipelines, and dashboarding to help clients automate reporting.</div>
+        </div>
+
+        <div class="event">
+          <div class="dot"></div>
+          <div style="font-weight:800">Programmer Analyst Intern — Cognizant</div>
+          <div class="muted">Mar 2023 — Jul 2023</div>
+          <div style="margin-top:8px">Supported automation and QA tasks; contributed to scripts that reduced manual testing time by 30%.</div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="projectsTpl">
+    <section class="card fade-in">
+      <h2 style="margin:0">Projects</h2>
+      <div class="muted">Select projects — data-focused</div>
+      <div class="projects" style="margin-top:12px">
+        <div class="project">
+          <div style="font-weight:800">Sales Insights Dashboard</div>
+          <div class="muted">Interactive dashboard for sales KPIs (Python, Plotly, SQL)</div>
+          <div class="tags"><div class="pill">Dashboard</div><div class="pill">SQL</div></div>
+        </div>
+        <div class="project">
+          <div style="font-weight:800">Scraper & ETL Pipeline</div>
+          <div class="muted">Reliable scraper with scheduling and data quality checks (Python, Selenium)</div>
+          <div class="tags"><div class="pill">Scraping</div><div class="pill">ETL</div></div>
+        </div>
+        <div class="project">
+          <div style="font-weight:800">A/B Test Analysis Toolkit</div>
+          <div class="muted">Reusable analysis tools for experiment results and statistical tests.</div>
+          <div class="tags"><div class="pill">Statistics</div><div class="pill">Python</div></div>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="contactTpl">
+    <section class="card fade-in">
+      <h2 style="margin:0">Contact</h2>
+      <div class="muted">Let's collaborate — send a short message</div>
+      <form id="contactForm" style="margin-top:12px">
+        <input type="text" id="name" placeholder="Your name" required />
+        <input type="email" id="email" placeholder="Your email" required />
+        <textarea id="message" placeholder="Short message..." required></textarea>
+        <div style="display:flex;gap:8px">
+          <button class="btn" type="submit">Send</button>
+          <a class="pill" href="mailto:kumar@example.com">Email directly</a>
+        </div>
+      </form>
+    </section>
+  </template>
+
+  <script>
+    // Simple hash router
+    const routes = {
+      home: document.getElementById('homeTpl').content,
+      about: document.getElementById('aboutTpl').content,
+      skills: document.getElementById('skillsTpl').content,
+      experience: document.getElementById('experienceTpl').content,
+      projects: document.getElementById('projectsTpl').content,
+      contact: document.getElementById('contactTpl').content
+    }
+
+    const main = document.getElementById('main')
+    const navLinks = document.querySelectorAll('nav a')
+
+    function render(route){
+      main.innerHTML = ''
+      const tpl = routes[route] || routes.home
+      main.appendChild(tpl.cloneNode(true))
+      // update active nav
+      navLinks.forEach(a=>a.classList.toggle('active', a.dataset.route===route))
+      // initialize animations & charts
+      requestAnimationFrame(()=>{
+        document.querySelectorAll('.fade-in').forEach(el=>el.classList.add('in-view'))
+        animateSkillBars()
+        drawBarChart()
+        startTyping()
+        attachContactHandler()
+      })
+    }
+
+    function getRouteFromHash(){
+      const h = location.hash.replace('#','')
+      return h||'home'
+    }
+
+    window.addEventListener('hashchange', ()=>render(getRouteFromHash()))
+    render(getRouteFromHash())
+
+    // skill bars animation
+    function animateSkillBars(){
+      document.querySelectorAll('.fill').forEach(el=>{
+        const p = el.dataset.p || 0
+        el.style.width = '0%'
+        setTimeout(()=>el.style.width = p + '%', 80)
+      })
+    }
+
+    // small bar chart for Home
+    function drawBarChart(){
+      const svg = document.getElementById('barChart')
+      if(!svg) return
+      const data=[120,200,80,150,100,220]
+      const w = 600, h = 120, pad=20
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`)
+      svg.innerHTML = ''
+      const barW = (w-2*pad)/data.length - 8
+      const maxV = Math.max(...data)
+      data.forEach((v,i)=>{
+        const x = pad + i*(barW+8)
+        const barH = (v/maxV)*(h - pad*2)
+        const y = h - pad - barH
+        const rect = document.createElementNS('http://www.w3.org/2000/svg','rect')
+        rect.setAttribute('x',x)
+        rect.setAttribute('y',h-pad)
+        rect.setAttribute('width',barW)
+        rect.setAttribute('height',0)
+        rect.setAttribute('rx',6)
+        rect.setAttribute('fill','url(#g1)')
+        svg.appendChild(rect)
+        const anim = rect.animate([
+          {height:0,y:h-pad},{height:barH,y:y}
+        ],{duration:700,delay:120*i,fill:'forwards',easing:'cubic-bezier(.2,.9,.2,1)'})
+      })
+      const defs = document.createElementNS('http://www.w3.org/2000/svg','defs')
+      defs.innerHTML = `<linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#4f46e5"/><stop offset="1" stop-color="#06b6d4"/></linearGradient>`
+      svg.appendChild(defs)
+    }
+
+    // typing effect for headline
+    const typingWords = ['Data Analyst','Problem Solver','Dashboard Builder']
+    let typeIdx=0
+    function startTyping(){
+      const el = document.getElementById('typed')
+      if(!el) return
+      el.textContent = ''
+      let word = typingWords[typeIdx % typingWords.length]
+      let i=0
+      const id = setInterval(()=>{
+        el.textContent = word.slice(0,i+1)
+        i++
+        if(i>=word.length){
+          clearInterval(id)
+          setTimeout(()=>{
+            // delete
+            const id2 = setInterval(()=>{
+              el.textContent = word.slice(0,i-1)
+              i--
+              if(i<=0){clearInterval(id2);typeIdx++;startTyping()}
+            },60)
+          },1000)
+        }
+      },80)
+    }
+
+    // contact handler (fake) — show toast
+    function attachContactHandler(){
+      const form = document.getElementById('contactForm')
+      if(!form) return
+      form.addEventListener('submit', e=>{
+        e.preventDefault()
+        const name=document.getElementById('name').value
+        alert('Thanks '+name+' — message sent (demo).\nYou can wire this to an API or email provider.')
+        form.reset()
+      })
+    }
+
+    // theme toggler (simple)
+    document.getElementById('themeToggler').addEventListener('click',()=>{
+      document.documentElement.style.setProperty('--accent', getComputedStyle(document.documentElement).getPropertyValue('--accent')===' #4f46e5' ? '#06b6d4' : '#4f46e5')
+      // small pulse
+      document.querySelector('.wrap').animate([{transform:'scale(0.995)'},{transform:'scale(1)'}],{duration:220})
+    })
+
+    // download resume (demo)
+    document.getElementById('downloadResume').addEventListener('click',()=>{
+      // placeholder: create a small text resume dynamically
+      const blob = new Blob([`Kishlay Kumar\nAnalyst\nEmail: kumar@example.com\n\nSummary: Data Analyst...`],{type:'text/plain'})
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url; a.download = 'Kishlay_Kumar_Resume.txt'
+      a.click()
+      URL.revokeObjectURL(url)
+    })
+
+    // init: smooth scroll to top on route change
+    window.addEventListener('hashchange', ()=>window.scrollTo({top:0,behavior:'smooth'}))
+
+    // nice intersection observer to reveal items as they come into view
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting) e.target.classList.add('in-view')})
+    },{threshold:0.12})
+    // observe dynamic content after render
+    new MutationObserver(()=>{
+      document.querySelectorAll('.fade-in').forEach(el=>io.observe(el))
+    }).observe(document.getElementById('main'),{childList:true,subtree:true})
+  </script>
+</body>
+</html>
