@@ -22,10 +22,12 @@
     .brand{display:flex;gap:12px;align-items:center}
     .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:grid;place-items:center;font-weight:700}
     nav{display:flex;gap:12px;align-items:center}
-    nav a{padding:10px 14px;border-radius:10px;color:var(--muted);font-weight:600}
+    nav a{padding:10px 5px;border-radius:10px;color:var(--muted);font-weight:600}
     nav a.active{background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));color:#fff;box-shadow:0 6px 18px rgba(79,70,229,0.12)}
     .actions{display:flex;gap:8px}
     .btn{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#06b6d4);border:none;color:white;font-weight:700;cursor:pointer}
+    main{margin-top:20px}
+    .btnp{padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,#3949AB,#06b6d4);border:none;color:white;font-weight:700;cursor:pointer}
     main{margin-top:20px}
     /* card */
     .card{background:linear-gradient(180deg,var(--glass), transparent);border:1px solid var(--glass-border);padding:18px;border-radius:12px}
@@ -75,7 +77,7 @@
     }
     /* small */
     .meta{color:var(--muted);font-size:14px}
-    .resume-link{background:transparent;border:1px dashed var(--glass-border);padding:8px 10px;border-radius:8px;color:var(--muted)}
+    .resume-link{background:transparent;border:1px outset var(--accent);padding:8px 10px;border-radius:8px;color:var(--mono)}
     /* headline typing */
     .typewrap{display:inline-block;position:relative}
     .cursor{display:inline-block;width:2px;background:#fff;height:1.1em;margin-left:6px;animation:blink .9s steps(2) infinite}
@@ -86,7 +88,7 @@
   <div class="wrap">
     <header>
       <div class="brand">
-        <div class="logo">AK</div>
+        <div class="logo">KK</div>
         <div>
           <div style="font-weight:800">Kishlay Kumar</div>
           <div class="meta">Analyst • Data & Insights</div>
@@ -99,12 +101,14 @@
         <a href="#skills" data-route="skills">Skills</a>
         <a href="#experience" data-route="experience">Experience</a>
         <a href="#projects" data-route="projects">Projects</a>
+	<a href="#certification" data-route="certification">Certification</a>
         <a href="#contact" data-route="contact">Contact</a>
       </nav>
 
       <div class="actions">
-        <button class="resume-link" id="downloadResume">Download Resume</button>
-        <button class="btn" id="themeToggler">Theme</button>
+        <button class="resume-link"><a href="https://www.github.com/kishlayaug15/kishlayaug15.github.io/raw/main/the_resume.pdf" class="active">Download Resume</button>
+        <button class="btn" id="linkedIn"><a href="https://www.linkedin.com/in/-kishlaykumar-/" target="_blank" class="active">LinkedIn</a>
+	</button>
       </div>
     </header>
 
@@ -113,7 +117,7 @@
     </main>
 
     <footer>
-      Built with ❤️ for analysts — Interactive, responsive, and easy to customize.
+      Built with ❤️ for analysts.
     </footer>
   </div>
 
@@ -123,7 +127,7 @@
         <div class="headline">Hi, I'm <span style="color:var(--accent)">Kishlay</span> —
           <span class="typewrap" id="typed">Data Analyst</span><span class="cursor"></span>
         </div>
-        <div class="tagline">I turn data into decisions. Focused on analytics, visualization, and automation to drive business outcomes.</div>
+        <div class="tagline">I turn data into decisions using advanced analytics, interactive visualizations, and workflow automation — bridging the gap between data engineering and business intelligence to enable smarter, faster outcomes. Passionate about transforming complex datasets into actionable strategies that enhance efficiency and growth.</div>
         <div class="cta-row">
           <a class="btn" href="#projects">View Projects</a>
           <a class="chip" href="#contact">Hire me</a>
@@ -156,14 +160,18 @@
 
       <div>
         <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div style="font-weight:800">Insights Dashboard</div>
-              <div class="muted">Quick summary — animated chart highlights</div>
-            </div>
-            <div class="chip">Live preview</div>
-          </div>
-
+	<h3 style="margin-top:0">Quick Information</h3>
+	<div class="muted">Location</div>
+	<div>India</div>
+	<div class="muted">Availability</div>
+	<div>Open to work • Contract / Full-time</div>
+	<div class="muted" style="margin-top:8px">Key Skills</div>
+	<a class="cta" href="#" style="display:inline-block;margin-top:5px">Strategic Planning</a>
+	<a class="cta" href="#" style="display:inline-block;margin-top:5px">Cross functional Collaboration</a>
+	<a class="cta" href="#" style="display:inline-block;margin-top:5px">Prioritization and Time Management</a>
+	<a class="cta" href="#" style="display:inline-block;margin-top:5px">Communication Skills</a>
+	</div>
+	</div>
           <div style="margin-top:12px">
             <svg id="barChart" width="100%" height="120" viewBox="0 0 600 120" preserveAspectRatio="none"></svg>
           </div>
@@ -178,18 +186,22 @@
       <p class="muted">Analyst profile summary</p>
       <div style="display:flex;gap:18px;margin-top:12px;align-items:flex-start">
         <div style="flex:1">
-          <p>I am an analytical thinker with experience in testing, web-scraping, and building dashboards. I enjoy converting messy datasets into clear, actionable insights, turning stakeholder questions into measurable experiments.</p>
+          <p>I am a data-minded problem solver with experience in data collection, cleaning, analysis and visualization. I have conducted analysis on 20+ personal projects facilitating their performance. I collaborate across product and operations to translate ambiguous problems into measurable tests and dashboards.</p> <p>I enjoy converting messy datasets into clear, actionable insights, turning stakeholder questions into measurable experiments. I am eager to be part of a forward-thinking organization where I can apply my skills, grow professionally, and explore new opportunities to add value through data and technology.</p>
           <ul>
-            <li>Strong skills in Python, SQL, Excel, and data visualization</li>
-            <li>Experience with automation and web scraping</li>
-            <li>Practical knowledge of statistical methods and A/B testing</li>
+            <li style="margin-top:8px">Strong skills in Python, SQL, Excel, and data visualization</li>
+            <li style="margin-top:8px">Experience with automation and web scraping</li>
+            <li style="margin-top:8px">Practical knowledge of statistical methods and A/B testing</li>
+	    <li style="margin-top:8px">Built ETL pipelines reducing report latency by 40%.</li>
+	    <li style="margin-top:8px">Designed dashboards used by 50+ stakeholders.</li>
+	    <li style="margin-top:8px">Performed cohort & retention analyses influencing roadmap.</li>
           </ul>
         </div>
-        <div style="width:300px">
+        <div style="width:268px">
+	<img src="https://kishlayaug15.github.io/ki$hl@y.jpg" width="268px" height="265px" style="border-radius:8px">
           <div class="card">
-            <div style="font-weight:700">Contact</div>
-            <div class="muted" style="margin-top:8px">kumar@example.com</div>
-            <div class="muted">+91 98765 43210</div>
+            <div style="font-weight:700">My Contact</div>
+            <div class="muted" style="margin-top:8px">Email : kishlayaug15@gmail.com</div>
+            <div class="muted">Phone : +91 96934 86978</div>
             <div style="margin-top:8px"><a class="pill" href="#contact">Message</a></div>
           </div>
         </div>
@@ -231,13 +243,24 @@
   <template id="experienceTpl">
     <section class="card fade-in">
       <h2 style="margin:0">Work experience</h2>
-      <div class="muted">Roles & contributions</div>
+      <div class="muted"><b>Roles & contributions</b></div>
       <div class="timeline" style="margin-top:14px">
         <div class="event">
           <div class="dot"></div>
-          <div style="font-weight:800">Freelance Project Consultant</div>
-          <div class="muted">Sep 2023 — Present</div>
+          <div style="font-weight:800">Process Associate — Genpact</div>
+          <div class="muted">Oct 2024 — Present</div>
+          <div style="margin-top:8px">Performed content moderation and trust & safety analysis for social media clients ensuring data accuracy and compliance.</div>
+          <div style="margin-top:8px">Automated repetitive tasks using data validation and reporting, reducing manual effort by 20%.</div>
+          <div style="margin-top:8px">Collaborated with teams to streamline process workflows with team huddles and insights sharing.</div>
+        </div>
+
+	<div class="event">
+          <div class="dot"></div>
+          <div style="font-weight:800">Career Break</div>
+          <div class="muted">Sept 2023 — Sept 2024</div>
           <div style="margin-top:8px">Consulted on data collection, cleaning pipelines, and dashboarding to help clients automate reporting.</div>
+          <div style="margin-top:8px">Personal goal pursuit to advance the overall technical skills. Completed 450+ hrs of skillup sessions.</div>
+          <div style="margin-top:8px">Further, improved my skills on SQL, Data Analysis, Power Bi and Machine Learning Techniques.</div>
         </div>
 
         <div class="event">
@@ -245,6 +268,17 @@
           <div style="font-weight:800">Programmer Analyst Intern — Cognizant</div>
           <div class="muted">Mar 2023 — Jul 2023</div>
           <div style="margin-top:8px">Supported automation and QA tasks; contributed to scripts that reduced manual testing time by 30%.</div>
+	  <div style="margin-top:8px">Understood the implementation of Agile Methodologies and SDLC approach. Reduced the time consumption by 20%.</div>
+	  <div style="margin-top:8px">Performed Web Scraping with Selenium & fetched data using SQL queries.</div>
+        </div>
+
+	<div class="event">
+          <div class="dot"></div>
+          <div style="font-weight:800">Data Science & Bussiness Analyst Intern — The Sparks Foundation</div>
+          <div class="muted">Sept 2021 — Oct 2021</div>
+	  <div style="margin-top:8px">Shared a deep data report including financial reporting for analyzing credit ratings of companies.</div>
+	  <div style="margin-top:8px">Performed Web Scraping with Beautifulsoup & fetched data using Python Programming.</div>
+	  <div style="margin-top:8px">Completed tasks on Decision Tree Algorithms, Unsupervised ML, EDA - Terrorism, Color Identification in Images, Object Detection-Optical Character Recognition.</div>
         </div>
       </div>
     </section>
@@ -255,20 +289,115 @@
       <h2 style="margin:0">Projects</h2>
       <div class="muted">Select projects — data-focused</div>
       <div class="projects" style="margin-top:12px">
-        <div class="project">
+	<div class="project">
           <div style="font-weight:800">Sales Insights Dashboard</div>
-          <div class="muted">Interactive dashboard for sales KPIs (Python, Plotly, SQL)</div>
-          <div class="tags"><div class="pill">Dashboard</div><div class="pill">SQL</div></div>
+          <div class="muted">Interactive Power BI dashboard to visualize sales performance, identify trends, and support data-driven business decisions.</div>
+          <div class="tags"><div class="pill">Power Bi</div><div class="pill">Streamlit</div></div>
+	 <button class="btnp" style="margin-top:10px" type="submit"><a href="https://github.com/kishlayaug15/Powerbi-Sales-Analysis" target="_blank" class="active">View</a></button>
         </div>
         <div class="project">
           <div style="font-weight:800">Scraper & ETL Pipeline</div>
-          <div class="muted">Reliable scraper with scheduling and data quality checks (Python, Selenium)</div>
+          <div class="muted">Reliable scraper with scheduling and data quality checks. Verifying website performance and software quality (Java, Selenium).</div>
           <div class="tags"><div class="pill">Scraping</div><div class="pill">ETL</div></div>
+	 <button class="btnp" style="margin-top:10px" type="submit"><a href="https://github.com/kishlayaug15/CTS_Internship_QEA" target="_blank" class="active">View</a></button>
         </div>
-        <div class="project">
-          <div style="font-weight:800">A/B Test Analysis Toolkit</div>
-          <div class="muted">Reusable analysis tools for experiment results and statistical tests.</div>
-          <div class="tags"><div class="pill">Statistics</div><div class="pill">Python</div></div>
+	<div class="project">
+          <div style="font-weight:800">Telecommunication Churn Prediction</div>
+          <div class="muted">Machine learning model to predict customer churn and identify key retention factors, improving customer retention strategies.</div>
+          <div class="tags"><div class="pill">ML algo</div><div class="pill">Python</div></div>
+	  <button class="btnp" style="margin-top:10px" type="submit"><a href="https://github.com/kishlayaug15/Telecom-Churn-Prediction-Streamlit-App-main" target="_blank" class="active">View</a></button>
+        </div>
+	<div class="project">
+          <div style="font-weight:800">Time Series Prediction of Ecommerce Sales Store</div>
+          <div class="muted">Time Series forecasting models to predict future e-commerce sales and optimize inventory and marketing decisions.</div>
+          <div class="tags"><div class="pill">Regressor Models</div><div class="pill">Python</div></div>
+	 <button class="btnp" style="margin-top:10px" type="submit"><a href="https://github.com/kishlayaug15/Rossmann-Sales-Store" target="_blank" class="active">View</a></button>
+        </div>
+	<div class="project">
+          <div style="font-weight:800">HR Analytics: Job Change of Data Scientists</div>
+          <div class="muted">Analyzed HR data to predict job change likelihood among data scientists, supporting workforce planning and retention.</div>
+          <div class="tags"><div class="pill">Python</div><div class="pill">Plotly</div><div class="pill">Seaborn</div></div>
+	 <button class="btnp" style="margin-top:10px" type="submit"><a href="https://github.com/kishlayaug15/HR-Analytics-Job-Change-of-Data-Scientists" target="_blank" class="active">View</a></button>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="certificationTpl">
+    <section class="card fade-in">
+      <h2 style="margin:0">Certifications</h2>
+      <div class="muted">Selected Certificate - data focused</div>
+      <div class="timeline" style="margin-top:14px">
+        <div class="event" style="display:flex;gap:690px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Excel for Business Analyst</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/International%20Institute%20of%20Business%20Analysis%20(IIBA%C2%AE).pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:627px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Excel Macros and VBA for beginners</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/Excel%20Macros%20and%20VBA.pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+        <div class="event" style="display:flex;gap:595px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Excel Essential Training (Microsoft 365)</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/Excel%20Essential.pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:595px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Sql-beginner-to-advanced-for-data-professionals</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/SQL_certificate.pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:600px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">TensorFlow for Deep Learning Bootcamp</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/UC-Tensorflow.jpg" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:400px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">LangChain: Build 22 LLM Apps with OpenAI, Llama & DeepSeek</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/Langchain_udemy_certificate.pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:600px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Microsoft Power BI Desktop for Business Intelligence</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/UC%20Powerbi.jpg" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:600px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Machine Learning with Python: Zero to GBMs</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/Jovian%20GBM%20Certificate.pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:600px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Deep Learning A-Z Hands on Artificial Neural Networks</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/Deep%20Learning%20Udemy.pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:600px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Data Structures and Algorithms in Python</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/dsa-py-certificate.pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:600px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Data Analysis with Python: Zero to Pandas</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/data%20analysis%20certificate.pdf" target="_blank" class="active">View</a></button>
+        </div>
+
+	<div class="event" style="display:flex;gap:600px;margin-top:6px;align-items:flex-start">
+          <div class="dot"></div>
+          <div style="font-weight:800">Machine Learning Foundations: A Case Study Approach</div>
+	  <button class="btnp" type="submit"><a href="https://github.com/kishlayaug15/kishlayaug15.github.io/blob/main/Certificates/Coursera%208ZHM7XQA4MYW.pdf" target="_blank" class="active">View</a></button>
         </div>
       </div>
     </section>
@@ -278,13 +407,14 @@
     <section class="card fade-in">
       <h2 style="margin:0">Contact</h2>
       <div class="muted">Let's collaborate — send a short message</div>
-      <form id="contactForm" style="margin-top:12px">
-        <input type="text" id="name" placeholder="Your name" required />
-        <input type="email" id="email" placeholder="Your email" required />
-        <textarea id="message" placeholder="Short message..." required></textarea>
+      <form action="https://api.web3forms.com/submit" method="POST" style="margin-top:12px">
+
+	<input type="hidden" name="access_key" value="48c4dc93-12e2-403a-938e-68f053f3ce68">
+        <input type="text" name="name" placeholder="Your name" required />
+        <input type="email" name="email" placeholder="Your email" required />
+        <textarea name="message" placeholder="Short message..." required></textarea>
         <div style="display:flex;gap:8px">
           <button class="btn" type="submit">Send</button>
-          <a class="pill" href="mailto:kumar@example.com">Email directly</a>
         </div>
       </form>
     </section>
@@ -298,6 +428,7 @@
       skills: document.getElementById('skillsTpl').content,
       experience: document.getElementById('experienceTpl').content,
       projects: document.getElementById('projectsTpl').content,
+      certification: document.getElementById('certificationTpl').content,
       contact: document.getElementById('contactTpl').content
     }
 
@@ -369,7 +500,7 @@
     }
 
     // typing effect for headline
-    const typingWords = ['Data Analyst','Problem Solver','Dashboard Builder']
+    const typingWords = ['Data Analyst','Problem Solver','Statistics & Insights Expert']
     let typeIdx=0
     function startTyping(){
       const el = document.getElementById('typed')
@@ -394,35 +525,7 @@
       },80)
     }
 
-    // contact handler (fake) — show toast
-    function attachContactHandler(){
-      const form = document.getElementById('contactForm')
-      if(!form) return
-      form.addEventListener('submit', e=>{
-        e.preventDefault()
-        const name=document.getElementById('name').value
-        alert('Thanks '+name+' — message sent (demo).\nYou can wire this to an API or email provider.')
-        form.reset()
-      })
-    }
 
-    // theme toggler (simple)
-    document.getElementById('themeToggler').addEventListener('click',()=>{
-      document.documentElement.style.setProperty('--accent', getComputedStyle(document.documentElement).getPropertyValue('--accent')===' #4f46e5' ? '#06b6d4' : '#4f46e5')
-      // small pulse
-      document.querySelector('.wrap').animate([{transform:'scale(0.995)'},{transform:'scale(1)'}],{duration:220})
-    })
-
-    // download resume (demo)
-    document.getElementById('downloadResume').addEventListener('click',()=>{
-      // placeholder: create a small text resume dynamically
-      const blob = new Blob([`Kishlay Kumar\nAnalyst\nEmail: kumar@example.com\n\nSummary: Data Analyst...`],{type:'text/plain'})
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url; a.download = 'Kishlay_Kumar_Resume.txt'
-      a.click()
-      URL.revokeObjectURL(url)
-    })
 
     // init: smooth scroll to top on route change
     window.addEventListener('hashchange', ()=>window.scrollTo({top:0,behavior:'smooth'}))
